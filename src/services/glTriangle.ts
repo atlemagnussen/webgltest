@@ -1,16 +1,31 @@
-let vertexShaderSource = ""
-let fragmentShaderSource = ""
+let glsl = String.raw
+let vertexShaderSource = glsl`
+    // an attribute will receive data from a buffer
+    attribute vec4 a_position;
+       
+    // all shaders have a main function
+    void main() {
+        // gl_Position is a special variable a vertex shader
+        // is responsible for setting
+        gl_Position = a_position;
+    }
+`
+let fragmentShaderSource = glsl`
+    // fragment shaders don't have a default precision so we need
+    // to pick one. mediump is a good default
+    precision mediump float;
+    
+    void main() {
+        // gl_FragColor is a special variable a fragment shader
+        // is responsible for setting
+        gl_FragColor = vec4(1, 0, 0.5, 1); // return reddish-purple
+    }
+`
 let glContext: WebGLRenderingContext
 
 export function doSetup(canvas: HTMLCanvasElement) {
 
     glContext = canvas.getContext("webgl")
-
-    const vertesxShader2dEl = document.querySelector("#vertex-shader-2d") as HTMLScriptElement
-    vertexShaderSource = vertesxShader2dEl.text
-
-    const fragmentShader2dEl = document.querySelector("#fragment-shader-2d") as HTMLScriptElement
-    fragmentShaderSource = fragmentShader2dEl.text;
     
     const vertexShader = createShader(glContext, glContext.VERTEX_SHADER, vertexShaderSource)
     const fragmentShader = createShader(glContext, glContext.FRAGMENT_SHADER, fragmentShaderSource)

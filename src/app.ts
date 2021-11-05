@@ -1,7 +1,8 @@
 import {LitElement, html, css} from "lit"
 import {customElement} from "lit/decorators.js"
 
-import { doSetup } from "./services/glService"
+import { doSetup } from "./services/glTriangle"
+import { mainCube } from "./services/glCube"
 
 @customElement('main-app')
 export class MainAppComponent extends LitElement {
@@ -44,7 +45,8 @@ export class MainAppComponent extends LitElement {
     
     updated() {
         const canvas = this.shadowRoot.querySelector("#c") as HTMLCanvasElement
-        doSetup(canvas)
+        // doSetup(canvas)
+        mainCube(canvas)
     }
     
     render() {
