@@ -22,16 +22,16 @@ let fragmentShaderSource = glsl`
     }
 `
 let glContext: WebGLRenderingContext
-
-export function doSetup(canvas: HTMLCanvasElement) {
-
-    glContext = canvas.getContext("webgl")
+let canvas: HTMLCanvasElement
+export function doSetup(can: HTMLCanvasElement) {
+    canvas = can
+    glContext = can.getContext("webgl") as WebGLRenderingContext
     
     const vertexShader = createShader(glContext, glContext.VERTEX_SHADER, vertexShaderSource)
     const fragmentShader = createShader(glContext, glContext.FRAGMENT_SHADER, fragmentShaderSource)
 
-    const program = createProgram(glContext, vertexShader, fragmentShader)
-    const positionAttributeLocation = glContext.getAttribLocation(program, "a_position")
+    const program = createProgram(glContext, vertexShader!, fragmentShader!)
+    const positionAttributeLocation = glContext.getAttribLocation(program!, "a_position")
     const positionBuffer = glContext.createBuffer()
     glContext.bindBuffer(glContext.ARRAY_BUFFER, positionBuffer)
 
@@ -49,7 +49,7 @@ export function doSetup(canvas: HTMLCanvasElement) {
     glContext.clearColor(0, 0, 0, 0)
     glContext.clear(glContext.COLOR_BUFFER_BIT)
 
-    glContext.useProgram(program)
+    glContext.useProgram(program!)
 
     glContext.enableVertexAttribArray(positionAttributeLocation)
 
@@ -70,9 +70,11 @@ export function doSetup(canvas: HTMLCanvasElement) {
     glContext.drawArrays(primitiveType, offset, count)
 
 }
-
+export function resizeWebGl() {
+    glContext.viewport(0, 0, glContext.canvas.width, glContext.canvas.height)
+}
 function createShader(gl: WebGLRenderingContext, type: number, source: string) {
-    const shader = gl.createShader(type)
+    const shader = gl.createShader(type) as WebGLShader
     gl.shaderSource(shader, source)
     gl.compileShader(shader)
     const success = gl.getShaderParameter(shader, gl.COMPILE_STATUS);
@@ -84,8 +86,8 @@ function createShader(gl: WebGLRenderingContext, type: number, source: string) {
     gl.deleteShader(shader);
 }
 
-function createProgram(gl, vertexShader, fragmentShader) {
-    const program = gl.createProgram()
+function createProgram(gl: WebGLRenderingContext, vertexShader: WebGLShader, fragmentShader: WebGLShader) {
+    const program = gl.createProgram() as WebGLProgram
     gl.attachShader(program, vertexShader)
     gl.attachShader(program, fragmentShader)
     gl.linkProgram(program)

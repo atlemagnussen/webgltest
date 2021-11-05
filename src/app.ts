@@ -1,8 +1,10 @@
 import {LitElement, html, css} from "lit"
 import {customElement} from "lit/decorators.js"
 
+import "@app/styles/site.css"
+
 // import { doSetup } from "./services/glTriangle"
-import { mainCube } from "./services/glCube"
+import { mainCube, resizeWebGl } from "./services/glCube"
 
 @customElement('main-app')
 export class MainAppComponent extends LitElement {
@@ -56,6 +58,7 @@ export class MainAppComponent extends LitElement {
     updated() {
         this._canvas = this.shadowRoot?.querySelector("#c") as HTMLCanvasElement
         // doSetup(canvas)
+        this.resizeCanvas()
         mainCube(this._canvas)
     }
     
@@ -72,6 +75,7 @@ export class MainAppComponent extends LitElement {
         console.log(`Resize event width=${w}, height=${h}`)
         canvas.width = w
         canvas.height = h
+        resizeWebGl()
         return true
     }
     render() {

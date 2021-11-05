@@ -2,7 +2,7 @@ import { mat4 } from "gl-matrix"
 
 let glsl = String.raw
 let cubeRotation = 0.0
-
+let glContext: WebGLRenderingContext
 // Vertex shader program
 const vsSource = glsl`
     attribute vec4 aVertexPosition;
@@ -31,7 +31,7 @@ const fsSource = glsl`
 //
 export function mainCube(canvas: HTMLCanvasElement) {
     const gl = canvas.getContext("webgl")
-
+    glContext = gl!
     // Initialize a shader program; this is where all the lighting
     // for the vertices and so forth is established.
     const shaderProgram = initShaderProgram(gl!, vsSource, fsSource)
@@ -69,6 +69,11 @@ export function mainCube(canvas: HTMLCanvasElement) {
         requestAnimationFrame(render)
     }
     requestAnimationFrame(render)
+}
+
+export function resizeWebGl() {
+    if (glContext && glContext.viewport)
+        glContext.viewport(0, 0, glContext.canvas.width, glContext.canvas.height)
 }
 
 //
