@@ -13,7 +13,7 @@
 <body>
     <main-app></main-app>
 
-    <script id="vertex-shader-2d" type="notjs">
+    <script id="vertex-shader-2d" type="x-shader/x-fragment">
         // an attribute will receive data from a buffer
         attribute vec4 a_position;
        
@@ -26,7 +26,7 @@
         }
       </script>
        
-      <script id="fragment-shader-2d" type="notjs">
+      <script id="fragment-shader-2d" type="x-shader/x-fragment">
         // fragment shaders don't have a default precision so we need
         // to pick one. mediump is a good default
         precision mediump float;

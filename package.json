@@ -5,9 +5,10 @@
   "main": "index.js",
   "scripts": {
     "build:vite": "vite build",
-    "rollup:watch": "rollup -c -w",
-    "vite:watch": "vite",
-    "start": "npm run vite:watch"
+    "watch:vite": "vite",
+    "start": "npm run watch:vite",
+    "deploy:firebase": "firebase deploy",
+    "deploy": "npm run build:vite && npm run deploy:firebase"
   },
   "keywords": [
     "webgl"
