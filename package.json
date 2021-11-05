@@ -16,8 +16,10 @@
   "author": "atlemagnussen",
   "license": "ISC",
   "dependencies": {
+    "@types/three": "^0.133.1",
     "gl-matrix": "^3.4.3",
-    "lit": "^2.0.2"
+    "lit": "^2.0.2",
+    "three": "^0.134.0"
   },
   "devDependencies": {
     "typescript": "^4.4.4",

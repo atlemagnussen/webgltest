@@ -5,6 +5,7 @@ import "@app/styles/site.css"
 
 // import { doSetup } from "./services/glTriangle"
 import { mainCube, resizeWebGl } from "./services/glCube"
+import { initThree } from "@app/services/threeTest"
 
 @customElement('main-app')
 export class MainAppComponent extends LitElement {
@@ -59,7 +60,8 @@ export class MainAppComponent extends LitElement {
         this._canvas = this.shadowRoot?.querySelector("#c") as HTMLCanvasElement
         // doSetup(canvas)
         this.resizeCanvas()
-        mainCube(this._canvas)
+        //mainCube(this._canvas)
+        initThree(this._canvas)
     }
     
     resizeCanvas() {
@@ -75,7 +77,7 @@ export class MainAppComponent extends LitElement {
         console.log(`Resize event width=${w}, height=${h}`)
         canvas.width = w
         canvas.height = h
-        resizeWebGl()
+        // resizeWebGl()
         return true
     }
     render() {
