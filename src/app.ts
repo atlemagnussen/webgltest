@@ -1,13 +1,14 @@
 import {LitElement, html, css} from "lit"
 import {customElement} from "lit/decorators.js"
 
-import { doSetup } from "./services/glTriangle"
+// import { doSetup } from "./services/glTriangle"
 import { mainCube } from "./services/glCube"
 
 @customElement('main-app')
 export class MainAppComponent extends LitElement {
     
-    private stream: MediaStream | null = null
+    _canvas: HTMLCanvasElement | null = null
+
     static styles = css`
         :host {
 		    display: grid;
@@ -43,21 +44,40 @@ export class MainAppComponent extends LitElement {
         }
     `
     
+    connectedCallback() {
+        super.connectedCallback()
+        window.addEventListener("resize", () => this.resizeCanvas())
+    }
+    disconnectedCallback() {
+        super.disconnectedCallback()
+        window.removeEventListener("resize", () => this.resizeCanvas())
+    }
+
     updated() {
-        const canvas = this.shadowRoot.querySelector("#c") as HTMLCanvasElement
+        this._canvas = this.shadowRoot?.querySelector("#c") as HTMLCanvasElement
         // doSetup(canvas)
-        mainCube(canvas)
+        mainCube(this._canvas)
     }
     
+    resizeCanvas() {
+        this._canvas = this.renderRoot.querySelector("#c")
+        if (!this._canvas) {
+            console.log("no canvas")
+            return false
+        }
+        window.innerWidth
+        const canvas = this._canvas as HTMLCanvasElement
+        const w = window.innerWidth
+        const h = window.innerHeight
+        console.log(`Resize event width=${w}, height=${h}`)
+        canvas.width = w
+        canvas.height = h
+        return true
+    }
     render() {
         return html`
-            ${
-                html`
-                    <header>
-                        <h2>webgl test</h2>
-                    </header>
-                `
-            }
+            <header>    
+            </header>
             
             <main>
                 <canvas id="c" width="800" height="600"></canvas>
