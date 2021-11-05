@@ -1,0 +1,24 @@
+{
+  "name": "webgltest",
+  "version": "1.0.0",
+  "description": "webglø",
+  "main": "index.js",
+  "scripts": {
+    "build:vite": "vite build",
+    "rollup:watch": "rollup -c -w",
+    "vite:watch": "vite",
+    "start": "npm run vite:watch"
+  },
+  "keywords": [
+    "webgl"
+  ],
+  "author": "atlemagnussen",
+  "license": "ISC",
+  "dependencies": {
+    "lit": "^2.0.2"
+  },
+  "devDependencies": {
+    "typescript": "^4.4.4",
+    "vite": "^2.6.13"
+  }
+}
