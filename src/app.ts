@@ -1,6 +1,8 @@
 import {LitElement, html, css} from "lit"
 import {customElement} from "lit/decorators.js"
 
+import { doSetup } from "./services/glService"
+
 @customElement('main-app')
 export class MainAppComponent extends LitElement {
     
@@ -40,6 +42,10 @@ export class MainAppComponent extends LitElement {
         }
     `
     
+    updated() {
+        const canvas = this.shadowRoot.querySelector("#c") as HTMLCanvasElement
+        doSetup(canvas)
+    }
     
     render() {
         return html`
@@ -52,10 +58,10 @@ export class MainAppComponent extends LitElement {
             }
             
             <main>
-                <canvas id="c"></canvas>
+                <canvas id="c" width="800" height="600"></canvas>
             </main>
             <footer>
             </footer>
-        `;
+        `
     }
 }
