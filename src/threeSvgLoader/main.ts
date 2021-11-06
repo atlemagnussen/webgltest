@@ -7,7 +7,7 @@ let update = (extrusion: number) => {}
 export const setup = async (canvas: HTMLCanvasElement) => {
     const scene = setupScene(canvas)
 
-    const render = await renderSVG(extrusion, "./assets/test.svg")
+    const render = await renderSVG(extrusion, "./assets/digilean.svg")
     // 
     update = render.update
     scene.add(render.object)

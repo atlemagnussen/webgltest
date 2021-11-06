@@ -1,9 +1,9 @@
 import * as THREE from "three"
 import { SVGLoader } from "three/examples/jsm/loaders/SVGLoader"
 
-const fillMaterial = new THREE.MeshBasicMaterial({ color: "#F3FBFB" })
+const fillMaterial = new THREE.MeshBasicMaterial({ color: "#1c93d3" })
 const stokeMaterial = new THREE.LineBasicMaterial({
-    color: "#00A5E6",
+    color: "#acd3ef",
 })
 
 interface UpdateMapItem {
@@ -17,11 +17,12 @@ export const renderSVG = async (extrusion: number, svgUrl: string) => {
     // const svgData = loader.parse(svg)
 
     const svgGroup = new THREE.Group()
-    svgGroup.scale.y *= -1
+    // svgGroup.scale.y *= -1
+    svgGroup.scale.y = -0.002
+    svgGroup.scale.x = 0.002
     const updateMap: UpdateMapItem[] = []
 
     const svgData = await loader.loadAsync(svgUrl)
-
   
     svgData.paths.forEach((path) => {
         const shapes = SVGLoader.createShapes(path);
@@ -41,9 +42,9 @@ export const renderSVG = async (extrusion: number, svgUrl: string) => {
     })
 
     const box = new THREE.Box3().setFromObject(svgGroup)
-    const size = box.getSize(new THREE.Vector3());
-    const yOffset = size.y / -2;
-    const xOffset = size.x / -2;
+    const size = box.getSize(new THREE.Vector3())
+    const yOffset = size.y * -1000
+    const xOffset = size.x * -2000
 
     // Offset all of group's elements, to center them
     svgGroup.children.forEach((item) => {
@@ -60,7 +61,10 @@ export const renderSVG = async (extrusion: number, svgUrl: string) => {
                     updateDetails.shape,
                     {
                         depth: extrusion,
-                        bevelEnabled: false,
+                        bevelEnabled: true,
+                        bevelThickness: 2,
+                        bevelSize: 3,
+                        bevelOffset: 5
                     }
                 )
                 const linesGeometry = new THREE.EdgesGeometry(meshGeometry)

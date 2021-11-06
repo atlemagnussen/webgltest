@@ -1,3 +1,11 @@
 :root {
-    --gl-controls-background: rgb(61, 21, 21);
+    --gl-controls-background: rgba(61, 21, 21, 0.3);
+
+
+    --gl-fill-one: #F3FBFB;
+    --gl-fill-two: #A35B12;
+
+    --gl-top-left: #acd3ef;
+    --gl-the-rest: #1c93d3;
+
 }

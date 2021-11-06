@@ -41,7 +41,7 @@ export class MainAppComponent extends LitElement {
             /* height: 300px;
             width: 500px; */
             background: var(--gl-controls-background);
-            opacity: 0.5;
+            /* opacity: 0.3; */
             border-radius: 5px;
             color: white;
             padding: 0.5rem;

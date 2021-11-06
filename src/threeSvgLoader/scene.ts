@@ -8,11 +8,11 @@ export const setupScene = (canvas: HTMLCanvasElement) => {
     const camera = new THREE.PerspectiveCamera(
         50,
         window.innerWidth / window.innerHeight,
-        0.01,
+        0.11,
         1e7
     )
     const ambientLight = new THREE.AmbientLight("#888888")
-    const pointLight = new THREE.PointLight("#ffffff", 2, 800)
+    const pointLight = new THREE.PointLight("#acd3ef", 2, 800)
     const controls = new OrbitControls(camera, renderer.domElement)
     const animate = () => {
         renderer.render(scene, camera)
@@ -25,7 +25,7 @@ export const setupScene = (canvas: HTMLCanvasElement) => {
     camera.position.z = 50
     camera.position.x = 50
     camera.position.y = 50
-    controls.enablePan = false
+    controls.enablePan = true
   
     window.addEventListener("resize", () => {
         camera.aspect = window.innerWidth / window.innerHeight
