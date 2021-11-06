@@ -1,4 +1,8 @@
-import parse from "parse-svg-path"
+
+import { parse } from "@app/libs/parseSvgPath"
+//import parse from "parse-svg-path"
+
+
 import getContours from "svg-path-contours"
 import simplify from "simplify-path"
 import getBounds from "bound-points"
@@ -17,7 +21,7 @@ let defaultOptions: SvgMesh3dOptions = {
     scale: 1
 }
 
-export const loadSvg3d = (path: string, opts: SvgMesh3dOptions) => {
+export const loadSvg3d = (path: string, opts?: SvgMesh3dOptions) => {
     const options = Object.assign(defaultOptions, opts)
 
     const parsed = parse(path)
