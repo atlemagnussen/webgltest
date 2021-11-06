@@ -1,12 +1,19 @@
 import * as three from "three"
 
+let canvas: HTMLCanvasElement
 let renderer: three.WebGLRenderer
 let camera: three.PerspectiveCamera
 let scene: three.Scene
 //let cube: three.Mesh<three.BoxGeometry, three.MeshBasicMaterial>
 let cubes: three.Mesh<any, three.MeshPhongMaterial>[]
 
-export const initThree = (canvas: HTMLCanvasElement) => {
+export const resizeThree = () => {
+    if (renderer && canvas)
+        renderer.setSize(canvas.width, canvas.height)
+}
+
+export const initThree = (can: HTMLCanvasElement) => {
+    canvas = can
     renderer = new three.WebGLRenderer({canvas})
 
     const fov = 75

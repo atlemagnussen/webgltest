@@ -5,7 +5,8 @@ import "@app/styles/site.css"
 
 // import { doSetup } from "./services/glTriangle"
 import { mainCube, resizeWebGl } from "./services/glCube"
-import { initThree } from "@app/services/threeTest"
+import { initThree, resizeThree } from "@app/services/threeTest"
+import "@app/services/svgMesh3d"
 
 @customElement('main-app')
 export class MainAppComponent extends LitElement {
@@ -77,7 +78,7 @@ export class MainAppComponent extends LitElement {
         console.log(`Resize event width=${w}, height=${h}`)
         canvas.width = w
         canvas.height = h
-        // resizeWebGl()
+        resizeThree()
         return true
     }
     render() {
