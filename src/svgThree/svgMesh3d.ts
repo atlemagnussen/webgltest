@@ -25,7 +25,8 @@ export const loadSvg3d = (path: string, opts?: SvgMesh3dOptions) => {
     const options = Object.assign(defaultOptions, opts)
 
     const parsed = parse(path)
-    const contours = getContours(parsed, options.scale)
+
+    const contours: Array<Array<number>> = getContours(parsed, options.scale)
 
     if (options.simplify! > 0) {
         for (let i = 0; i < contours.length; i++) {

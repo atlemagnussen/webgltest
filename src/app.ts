@@ -1,12 +1,10 @@
 import {LitElement, html, css} from "lit"
 import {customElement} from "lit/decorators.js"
 
+import "@app/styles/colors.css"
 import "@app/styles/site.css"
 
-// import { doSetup } from "./services/glTriangle"
-// import { mainCube, resizeWebGl } from "./services/glCube"
 import { initThree, resizeThree } from "@app/services/threeTest"
-import { initSvg } from "@app/svgThree/svgThree"
 
 @customElement('main-app')
 export class MainAppComponent extends LitElement {
@@ -23,21 +21,32 @@ export class MainAppComponent extends LitElement {
 		    min-height: 100%;
 	    }
 	    header {
-		    background: var(--av-main-background);
-		    display: flex;
-		    flex-direction: row;
-		    justify-content: space-between;
+		    position: absolute;
+            z-index: 10;
+            left: 0;
+            top: 0;
+            display: flex;
+            flex-direction: row;
+            gap: 0.5rem;
+		    justify-content: center;
 		    align-items: center;
-		    width: 100%;
+            width: 100%;
 	    }
         main {
             background: var(--av-main-background);
         }
-	    footer {
-		    display: flex;
-		    justify-content: center;
-		    z-index: 500;
-	    }
+	    .controls {
+            /* height: 300px;
+            width: 500px; */
+            background: var(--gl-controls-background);
+            opacity: 0.5;
+            border-radius: 5px;
+            color: white;
+            padding: 0.5rem;
+            /* animation: fadeout 2s; */
+            /* animation-fill-mode: forwards; */
+            /* animation-delay: 0; */
+        }
         
         a {
             color: var(--av-main-foreground);
@@ -59,11 +68,9 @@ export class MainAppComponent extends LitElement {
 
     updated() {
         this._canvas = this.shadowRoot?.querySelector("#c") as HTMLCanvasElement
-        // doSetup(canvas)
         this.resizeCanvas()
-        //mainCube(this._canvas)
-        //initThree(this._canvas)
-        initSvg(this._canvas)
+        initThree(this._canvas)
+        
     }
     
     resizeCanvas() {
@@ -84,7 +91,11 @@ export class MainAppComponent extends LitElement {
     }
     render() {
         return html`
-            <header>    
+            <header>
+            <div class="controls">
+                <span>Controls:</span>
+                <input type="range" min="1" max="50" id="input" />
+            </div>
             </header>
             
             <main>
