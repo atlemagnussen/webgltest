@@ -6,6 +6,8 @@ import "@app/styles/site.css"
 
 import { initThree, resizeThree } from "@app/services/threeTest"
 
+import { setup, changExtrusion } from "@app/threeSvgLoader/main";
+
 @customElement('main-app')
 export class MainAppComponent extends LitElement {
     
@@ -69,8 +71,8 @@ export class MainAppComponent extends LitElement {
     updated() {
         this._canvas = this.shadowRoot?.querySelector("#c") as HTMLCanvasElement
         this.resizeCanvas()
-        initThree(this._canvas)
-        
+        //initThree(this._canvas)
+        setup(this._canvas)
     }
     
     resizeCanvas() {
@@ -86,15 +88,20 @@ export class MainAppComponent extends LitElement {
         console.log(`Resize event width=${w}, height=${h}`)
         canvas.width = w
         canvas.height = h
-        resizeThree()
+        // resizeThree()
         return true
+    }
+    rangeChange(e: Event) {
+        //@ts-ignore
+        let val = e.currentTarget.value
+        changExtrusion(Number(val))
     }
     render() {
         return html`
             <header>
             <div class="controls">
                 <span>Controls:</span>
-                <input type="range" min="1" max="50" id="input" />
+                <input type="range" min="1" max="50" id="input" value="1" @input=${(e:Event) => this.rangeChange(e)} />
             </div>
             </header>
             

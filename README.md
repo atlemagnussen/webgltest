@@ -2,6 +2,8 @@
 
 [WebGL fundamentals](https://webglfundamentals.org/webgl/lessons/webgl-fundamentals.html)
 
+svgloader https://blog.logrocket.com/bringing-svgs-three-js-svgloader/
+
 svg experiment: https://github.com/mattdesl/svg-mesh-3d/blob/4963b8971d9cce74daf562d4f997a2552d9a9def/index.js
 
 https://dev.opera.com/articles/introduction-to-webgl-part-1/
