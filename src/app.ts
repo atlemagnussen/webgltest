@@ -50,7 +50,6 @@ export class MainAppComponent extends LitElement {
     
     connectedCallback() {
         super.connectedCallback()
-        initSvg()
         window.addEventListener("resize", () => this.resizeCanvas())
     }
     disconnectedCallback() {
@@ -63,7 +62,8 @@ export class MainAppComponent extends LitElement {
         // doSetup(canvas)
         this.resizeCanvas()
         //mainCube(this._canvas)
-        initThree(this._canvas)
+        //initThree(this._canvas)
+        initSvg(this._canvas)
     }
     
     resizeCanvas() {
