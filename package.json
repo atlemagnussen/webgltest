@@ -4,6 +4,7 @@
   "description": "webglø",
   "main": "index.js",
   "scripts": {
+    "typescript": "tsc --noEmit",
     "build:vite": "vite build",
     "watch:vite": "vite",
     "start": "npm run watch:vite",
@@ -22,13 +23,17 @@
     "clean-pslg": "^1.1.2",
     "gl-matrix": "^3.4.3",
     "lit": "^2.0.2",
+    "mesh-reindex": "^1.0.0",
     "normalize-path-scale": "^2.0.0",
     "parse-svg-path": "^0.1.2",
     "random-float": "^3.0.0",
     "simplify-path": "^1.1.0",
     "svg-path-contours": "^2.0.0",
     "svg-pathdata": "^6.0.3",
-    "three": "^0.134.0"
+    "three": "^0.134.0",
+    "three-simplicial-complex": "^69.0.6",
+    "tweenr": "^2.2.1",
+    "unindex-mesh": "^2.0.0"
   },
   "devDependencies": {
     "typescript": "^4.4.4",

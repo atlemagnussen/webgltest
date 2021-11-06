@@ -6,7 +6,7 @@ import "@app/styles/site.css"
 // import { doSetup } from "./services/glTriangle"
 // import { mainCube, resizeWebGl } from "./services/glCube"
 import { initThree, resizeThree } from "@app/services/threeTest"
-import { initSvg } from "@app/services/svgThree"
+import { initSvg } from "@app/svgThree/svgThree"
 
 @customElement('main-app')
 export class MainAppComponent extends LitElement {

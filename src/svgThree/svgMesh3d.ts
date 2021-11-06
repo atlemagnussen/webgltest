@@ -3,26 +3,27 @@ import getContours from "svg-path-contours"
 import simplify from "simplify-path"
 import getBounds from "bound-points"
 import randomFloat from "random-float"
-import cleanPslg from "clean-pslg"
+// import cleanPslg from "clean-pslg"
 import cdt2d from "cdt2d"
 import normalize from  "normalize-path-scale"
 // import {SVGPathData} from "svg-pathdata" // SVGPathDataTransformer, SVGPathDataEncoder, SVGPathDataParser
 
-let options = {
+let defaultOptions: SvgMesh3dOptions = {
     delaunay: true,
     clean: true,
-    exterior: false,
+    exterior: true,
     randomization: 0,
     simplify: 0,
     scale: 1
 }
 
-export const loadSvg = async (path: string) => {
+export const loadSvg3d = (path: string, opts: SvgMesh3dOptions) => {
+    const options = Object.assign(defaultOptions, opts)
+
     const parsed = parse(path)
-    console.log(parsed)
     const contours = getContours(parsed, options.scale)
 
-    if (options.simplify > 0) {
+    if (options.simplify! > 0) {
         for (let i = 0; i < contours.length; i++) {
           contours[i] = simplify(contours[i], options.simplify)
         }
@@ -32,8 +33,8 @@ export const loadSvg = async (path: string) => {
     const positions = polyline.positions
     const bounds = getBounds(positions)
 
-    if (options.randomization > 0) {
-        addRandomPoints(positions, bounds, options.randomization)
+    if (options.randomization! > 0) {
+        addRandomPoints(positions, bounds, options.randomization!)
     }
 
     let loops = polyline.edges
@@ -45,9 +46,9 @@ export const loadSvg = async (path: string) => {
         }
     }
 
-    if (options.clean) {
-        cleanPslg(positions, edges)
-    }
+    // if (options.clean) {
+    //     cleanPslg(positions, edges)
+    // }
 
     let cells = cdt2d(positions, edges, options)
      // rescale to [-1 ... 1]
