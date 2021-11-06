@@ -4,9 +4,9 @@ import {customElement} from "lit/decorators.js"
 import "@app/styles/site.css"
 
 // import { doSetup } from "./services/glTriangle"
-import { mainCube, resizeWebGl } from "./services/glCube"
+// import { mainCube, resizeWebGl } from "./services/glCube"
 import { initThree, resizeThree } from "@app/services/threeTest"
-import "@app/services/svgMesh3d"
+import { initSvg } from "@app/services/svgThree"
 
 @customElement('main-app')
 export class MainAppComponent extends LitElement {
@@ -50,6 +50,7 @@ export class MainAppComponent extends LitElement {
     
     connectedCallback() {
         super.connectedCallback()
+        initSvg()
         window.addEventListener("resize", () => this.resizeCanvas())
     }
     disconnectedCallback() {

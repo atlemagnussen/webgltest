@@ -18,8 +18,11 @@
   "dependencies": {
     "@types/three": "^0.133.1",
     "bound-points": "^1.0.0",
+    "cdt2d": "^1.0.0",
+    "clean-pslg": "^1.1.2",
     "gl-matrix": "^3.4.3",
     "lit": "^2.0.2",
+    "normalize-path-scale": "^2.0.0",
     "parse-svg-path": "^0.1.2",
     "random-float": "^3.0.0",
     "simplify-path": "^1.1.0",
