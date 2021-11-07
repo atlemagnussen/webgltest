@@ -10,6 +10,8 @@ let update = (extrusion: number) => {}
 let updateScale = (scale: number) => {}
 
 let scene: THREE.Scene
+let group: THREE.Group
+
 export const setup = async (canvas: HTMLCanvasElement) => {
     scene = setupScene(canvas)
 
@@ -17,7 +19,8 @@ export const setup = async (canvas: HTMLCanvasElement) => {
     // 
     update = render.update
     updateScale = render.updateScale
-    scene.add(render.object)
+    group = render.svgGroup
+    scene.add(group)
 }
 
 export const stop = () => {
@@ -28,7 +31,13 @@ export const changExtrusion = (ext: number) => {
     update(ext)
 }
 export const changeScale = (scale: number) => {
-    updateScale(scale)
+    //scene.remove(group)
+    const z = group.scale.z
+    group.scale.set(scale, scale, z)
+    // group.scale.x = scale
+    // group.scale.y = scale
+    // scene.add(group)
+    // updateScale(scale)
 }
 // ...
 

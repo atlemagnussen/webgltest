@@ -82,7 +82,7 @@ export class MainAppComponent extends LitElement {
             <div class="controls">
                 <span>Controls:</span>
                 <input type="range" min="1" max="50" id="input" value="1" @input=${(e:Event) => this.rangeChange(e)} />
-                <input type="range" min="0.001" max="1" step="0.001" id="input" value="0.005"
+                <input type="range" min="0.001" max="0.01" step="0.001" id="input" value="0.005"
                     @input=${(e:Event) => this.scaleChange(e)} />
             </div>
             </header>

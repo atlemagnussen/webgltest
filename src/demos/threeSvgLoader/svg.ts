@@ -55,7 +55,7 @@ export const renderSVG = async (svgUrl: string, extrusion: number, scale: number
     svgGroup.rotateX(-Math.PI / 2)
 
     return {
-        object: svgGroup,
+        svgGroup,
         update(extrusion: number) {
             updateMap.forEach((updateDetails) => {
                 const meshGeometry = new THREE.ExtrudeBufferGeometry(
