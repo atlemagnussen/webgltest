@@ -1,7 +1,7 @@
 import {LitElement, html, css} from "lit"
 import {customElement} from "lit/decorators.js"
 
-import { setup, changExtrusion, stop } from "./main"
+import { setup, changExtrusion, changeScale, stop } from "./main"
 
 @customElement('three-svg-loader1')
 export class MainAppComponent extends LitElement {
@@ -54,14 +54,9 @@ export class MainAppComponent extends LitElement {
         }
     `
     
-    // connectedCallback() {
-    //     super.connectedCallback()
-    //     window.addEventListener("resize", () => this.resizeCanvas())
-    // }
     disconnectedCallback() {
         super.disconnectedCallback()
         stop()
-        // window.removeEventListener("resize", () => this.resizeCanvas())
     }
 
     updated() {
@@ -71,26 +66,15 @@ export class MainAppComponent extends LitElement {
         setup(this._canvas)
     }
     
-    // resizeCanvas() {
-    //     this._canvas = this.renderRoot.querySelector("#c")
-    //     if (!this._canvas) {
-    //         console.log("no canvas")
-    //         return false
-    //     }
-    //     window.innerWidth
-    //     const canvas = this._canvas as HTMLCanvasElement
-    //     const w = window.innerWidth
-    //     const h = window.innerHeight
-    //     console.log(`Resize event width=${w}, height=${h}`)
-    //     canvas.width = w
-    //     canvas.height = h
-    //     // resizeThree()
-    //     return true
-    // }
     rangeChange(e: Event) {
         //@ts-ignore
         let val = e.currentTarget.value
         changExtrusion(Number(val))
+    }
+    scaleChange(e: Event) {
+        //@ts-ignore
+        let val = e.currentTarget.value
+        changeScale(Number(val))
     }
     render() {
         return html`
@@ -98,6 +82,8 @@ export class MainAppComponent extends LitElement {
             <div class="controls">
                 <span>Controls:</span>
                 <input type="range" min="1" max="50" id="input" value="1" @input=${(e:Event) => this.rangeChange(e)} />
+                <input type="range" min="0.001" max="1" step="0.001" id="input" value="0.005"
+                    @input=${(e:Event) => this.scaleChange(e)} />
             </div>
             </header>
             

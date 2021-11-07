@@ -75,6 +75,10 @@ export const renderSVG = async (svgUrl: string, extrusion: number, scale: number
                 updateDetails.mesh.geometry = meshGeometry;
                 updateDetails.lines.geometry = linesGeometry;
             })
+        },
+        updateScale(scale: number) {
+            svgGroup.scale.y = scale
+            svgGroup.scale.x = scale
         }
     }
 }

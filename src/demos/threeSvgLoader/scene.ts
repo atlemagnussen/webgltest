@@ -13,7 +13,6 @@ const resize = () => {
     renderer.setSize(window.innerWidth, window.innerHeight)
 }
 
-
 export const setupScene = (canvas: HTMLCanvasElement) => {
     scene = new THREE.Scene()
   

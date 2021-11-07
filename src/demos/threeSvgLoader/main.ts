@@ -5,7 +5,9 @@ const extrusion = 1
 const scale = 0.005
 //@ts-ignore
 import svgUrl from "@app/assets/digilean.svg"
+
 let update = (extrusion: number) => {}
+let updateScale = (scale: number) => {}
 
 let scene: THREE.Scene
 export const setup = async (canvas: HTMLCanvasElement) => {
@@ -14,6 +16,7 @@ export const setup = async (canvas: HTMLCanvasElement) => {
     const render = await renderSVG(svgUrl, extrusion, scale)
     // 
     update = render.update
+    updateScale = render.updateScale
     scene.add(render.object)
 }
 
@@ -25,7 +28,7 @@ export const changExtrusion = (ext: number) => {
     update(ext)
 }
 export const changeScale = (scale: number) => {
-
+    updateScale(scale)
 }
 // ...
 
