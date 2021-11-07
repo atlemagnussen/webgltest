@@ -12,15 +12,15 @@ interface UpdateMapItem {
     lines: THREE.LineSegments<THREE.EdgesGeometry<THREE.ExtrudeGeometry>, THREE.LineBasicMaterial>
 }
 
-export const renderSVG = async (extrusion: number, svgUrl: string) => {
+export const renderSVG = async (svgUrl: string, extrusion: number, scale: number) => {
     const loader = new SVGLoader()
     // const svgData = loader.parse(svg)
 
     const svgGroup = new THREE.Group()
     // svgGroup.scale.y *= -
     
-    svgGroup.scale.y = -0.002
-    svgGroup.scale.x = 0.002
+    svgGroup.scale.y = scale
+    svgGroup.scale.x = scale
     const updateMap: UpdateMapItem[] = []
 
     const svgData = await loader.loadAsync(svgUrl)
@@ -44,15 +44,15 @@ export const renderSVG = async (extrusion: number, svgUrl: string) => {
 
     const box = new THREE.Box3().setFromObject(svgGroup)
     const size = box.getSize(new THREE.Vector3())
-    // const yOffset = size.y * -1000
-    // const xOffset = size.x * -2000
+    const yOffset = size.y * -1
+    const xOffset = size.x * -1
 
-    // // Offset all of group's elements, to center them
-    // svgGroup.children.forEach((item) => {
-    //     item.position.x = xOffset
-    //     item.position.y = yOffset
-    // })
-    // svgGroup.rotateX(-Math.PI / 2)
+    // Offset all of group's elements, to center them
+    svgGroup.children.forEach((item) => {
+        item.position.x = xOffset
+        item.position.y = yOffset
+    })
+    svgGroup.rotateX(-Math.PI / 2)
 
     return {
         object: svgGroup,

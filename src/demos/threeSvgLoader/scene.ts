@@ -1,11 +1,24 @@
 import * as THREE from "three"
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls"
 
+let scene: THREE.Scene
+let renderer: THREE.WebGLRenderer
+let camera: THREE.PerspectiveCamera
+
+let anim = 0
+
+const resize = () => {
+    camera.aspect = window.innerWidth / window.innerHeight
+    camera.updateProjectionMatrix()
+    renderer.setSize(window.innerWidth, window.innerHeight)
+}
+
+
 export const setupScene = (canvas: HTMLCanvasElement) => {
-    const scene = new THREE.Scene()
+    scene = new THREE.Scene()
   
-    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true })
-    const camera = new THREE.PerspectiveCamera(
+    renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true })
+    camera = new THREE.PerspectiveCamera(
         50,
         window.innerWidth / window.innerHeight,
         0.11,
@@ -17,7 +30,7 @@ export const setupScene = (canvas: HTMLCanvasElement) => {
     const animate = () => {
         renderer.render(scene, camera)
         controls.update()
-        requestAnimationFrame(animate)
+        anim = requestAnimationFrame(animate)
     }
 
     renderer.setSize(window.innerWidth, window.innerHeight)
@@ -27,12 +40,14 @@ export const setupScene = (canvas: HTMLCanvasElement) => {
     camera.position.y = 50
     controls.enablePan = true
   
-    window.addEventListener("resize", () => {
-        camera.aspect = window.innerWidth / window.innerHeight
-        camera.updateProjectionMatrix()
-        renderer.setSize(window.innerWidth, window.innerHeight)
-    })
+    window.addEventListener("resize", resize)
     animate()
 
     return scene;
+}
+
+export const stopScene = () => {
+    window.removeEventListener("resize", resize)
+    if (anim)
+        window.cancelAnimationFrame(anim)
 }

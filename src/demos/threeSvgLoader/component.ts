@@ -1,7 +1,7 @@
 import {LitElement, html, css} from "lit"
 import {customElement} from "lit/decorators.js"
 
-import { setup, changExtrusion } from "./main"
+import { setup, changExtrusion, stop } from "./main"
 
 @customElement('three-svg-loader1')
 export class MainAppComponent extends LitElement {
@@ -54,38 +54,39 @@ export class MainAppComponent extends LitElement {
         }
     `
     
-    connectedCallback() {
-        super.connectedCallback()
-        window.addEventListener("resize", () => this.resizeCanvas())
-    }
+    // connectedCallback() {
+    //     super.connectedCallback()
+    //     window.addEventListener("resize", () => this.resizeCanvas())
+    // }
     disconnectedCallback() {
         super.disconnectedCallback()
-        window.removeEventListener("resize", () => this.resizeCanvas())
+        stop()
+        // window.removeEventListener("resize", () => this.resizeCanvas())
     }
 
     updated() {
         this._canvas = this.shadowRoot?.querySelector("#c") as HTMLCanvasElement
-        this.resizeCanvas()
+        //this.resizeCanvas()
         //initThree(this._canvas)
         setup(this._canvas)
     }
     
-    resizeCanvas() {
-        this._canvas = this.renderRoot.querySelector("#c")
-        if (!this._canvas) {
-            console.log("no canvas")
-            return false
-        }
-        window.innerWidth
-        const canvas = this._canvas as HTMLCanvasElement
-        const w = window.innerWidth
-        const h = window.innerHeight
-        console.log(`Resize event width=${w}, height=${h}`)
-        canvas.width = w
-        canvas.height = h
-        // resizeThree()
-        return true
-    }
+    // resizeCanvas() {
+    //     this._canvas = this.renderRoot.querySelector("#c")
+    //     if (!this._canvas) {
+    //         console.log("no canvas")
+    //         return false
+    //     }
+    //     window.innerWidth
+    //     const canvas = this._canvas as HTMLCanvasElement
+    //     const w = window.innerWidth
+    //     const h = window.innerHeight
+    //     console.log(`Resize event width=${w}, height=${h}`)
+    //     canvas.width = w
+    //     canvas.height = h
+    //     // resizeThree()
+    //     return true
+    // }
     rangeChange(e: Event) {
         //@ts-ignore
         let val = e.currentTarget.value
