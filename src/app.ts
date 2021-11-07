@@ -16,18 +16,19 @@ import "@app/views/componentSelector"
 
 import "@app/demos"
 
-import { selectedComponent } from "@app/stores/componentStore"
+import { selectedComponent, components } from "@app/stores/componentStore"
 import { Subscription } from "rxjs"
-
-const comps = ["three-test1", "three-svg-loader1"]
+import { goto, gotoPath } from "./routing/router"
+import "./routing"
 @customElement('main-app')
 export class MainAppComponent extends LitElement {
     sub: Subscription | null = null
     selected = ""
     static styles = css`
         :host {
+            background: var(--gl-main-background);
 		    display: grid;
-		    grid-template-rows: auto 1fr auto;
+		    grid-template-rows: 1fr auto;
 		    box-sizing: border-box;
             height: 100%;
             width: 100%;
@@ -51,7 +52,15 @@ export class MainAppComponent extends LitElement {
             z-index: 10;
         }
         main {
-            background: var(--av-main-background);
+            background: var(--gl-main-background);
+            display: grid;
+		    grid-template-rows: 1fr auto;
+        }
+        footer {
+            display: flex;
+            flex-direction: column;
+		    justify-content: flex-start;
+		    align-items: center;
         }
 	    .controls {
             /* height: 300px;
@@ -64,6 +73,12 @@ export class MainAppComponent extends LitElement {
             /* animation: fadeout 2s; */
             /* animation-fill-mode: forwards; */
             /* animation-delay: 0; */
+        }
+        .links {
+            display: flex;
+            flex-direction: column;
+		    justify-content: flex-start;
+		    align-items: center;
         }
         
         a {
@@ -88,7 +103,7 @@ export class MainAppComponent extends LitElement {
                 ${
                     this.selected ? html`
                     <div class="controls">
-                        <component-selector .components=${comps}></component-selector>
+                        <component-selector .components=${components}></component-selector>
                     </div>` : html``
                 }
             </header>
@@ -98,12 +113,27 @@ export class MainAppComponent extends LitElement {
                     this.selected ? html`
                         <route-view view=${this.selected}></route-view>
                     ` : html`
-                        <component-selector .components=${comps}></component-selector>
+                        <div class="links">
+                            ${components.map(c => {
+                                return html`
+                                    <p>
+                                        <a href="/${c}" @click=${goto}>${c}</a>
+                                    </p>
+                                `
+                            })}
+                        </div>
                     `
                 }
             </main>
             <footer>
+                <p>
+                    <a href="https://github.com/atlemagnussen/webgltest">
+                        <img src="https://github.githubassets.com/images/modules/site/icons/footer/github-mark.svg" width="20" height="20" class="d-block" loading="lazy" decoding="async" alt="GitHub mark">
+                    </a>
+                </p>
             </footer>
         `
     }
 }
+
+gotoPath(window.location.pathname)

@@ -1,6 +1,6 @@
 :root {
 
-    --av-main-background: var(--av-black);
+    --gl-main-background: var(--av-black);
     --av-main-foreground: var(--av-grey);
 
     --av-secondary-background: var(--av-black-light);

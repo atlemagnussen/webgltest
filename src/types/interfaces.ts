@@ -12,3 +12,20 @@ interface SvgMesh3dOptions {
     simplify?: number
     scale?: number
 }
+
+interface BrowserRoute {
+    path: string
+    param: string
+    action: string
+}
+interface Route {
+    path: string
+    component: string
+    title?: string
+    description?: string
+    param?: string
+    action?: string
+    mustBeLoggedIn?: boolean
+    admin?: boolean
+    init?: Function
+}

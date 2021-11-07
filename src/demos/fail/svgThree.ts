@@ -12,7 +12,7 @@ import triangleCentroid from 'triangle-centroid'
 import reindex from 'mesh-reindex'
 import unindex from 'unindex-mesh'
 
-import { loadSvg3d } from "@app/svgThree/svgMesh3d"
+import { loadSvg3d } from "@app/demos/fail/svgMesh3d"
 
 import vertShader from "./vertShader"
 import fragShader from "./fragShader"

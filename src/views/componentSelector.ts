@@ -2,6 +2,7 @@ import {LitElement, html, css} from "lit"
 import {customElement, property} from "lit/decorators.js"
 import { selectedComponent, setSelectedComponent } from "@app/stores/componentStore"
 import type { Subscription } from "rxjs"
+import { gotoPath } from "@app/routing/router"
 
 @customElement('component-selector')
 export class ComponentSelector extends LitElement {
@@ -21,12 +22,15 @@ export class ComponentSelector extends LitElement {
         // @ts-ignore
         let val = e.currentTarget.value
         if (val)
-            setSelectedComponent(val)
+            gotoPath(`/${val}`)
     }
 
     connectedCallback() {
         super.connectedCallback()
-        this.sub = selectedComponent.subscribe(s => this.selected = s)
+        this.sub = selectedComponent.subscribe(s => {
+            this.selected = s
+            this.requestUpdate()
+        })
     }
     disconnectedCallback() {
         super.disconnectedCallback()
