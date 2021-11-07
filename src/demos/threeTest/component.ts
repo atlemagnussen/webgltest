@@ -1,22 +1,13 @@
 import {LitElement, html, css} from "lit"
 import {customElement} from "lit/decorators.js"
 
-import "@app/views/routeView"
-import "@app/views/componentSelector"
-import "@app/styles/colors.css"
-import "@app/styles/site.css"
+import { initThree, resizeThree } from "./main"
 
-import "@material/mwc-list"
-import "@material/mwc-list/mwc-list-item"
-
-import { selectedComponent } from "@app/stores/componentStore"
-import { Subscription } from "rxjs"
-
-const comps = ["three-test1", "three-svg-loader1"]
-@customElement('main-app')
+@customElement('three-test1')
 export class MainAppComponent extends LitElement {
-    sub: Subscription | null = null
-    selected = ""
+    
+    _canvas: HTMLCanvasElement | null = null
+
     static styles = css`
         :host {
 		    display: grid;
@@ -57,30 +48,54 @@ export class MainAppComponent extends LitElement {
         a {
             color: var(--av-main-foreground);
         }
-    `    
+
+        canvas {
+            background-color: grey;
+        }
+    `
     
     connectedCallback() {
         super.connectedCallback()
-        this.sub = selectedComponent.subscribe(s => this.selected = s)
+        window.addEventListener("resize", () => this.resizeCanvas())
     }
     disconnectedCallback() {
         super.disconnectedCallback()
-        this.sub?.unsubscribe()
+        window.removeEventListener("resize", () => this.resizeCanvas())
     }
+
+    updated() {
+        this._canvas = this.shadowRoot?.querySelector("#c") as HTMLCanvasElement
+        this.resizeCanvas()
+        initThree(this._canvas)
+    }
+    
+    resizeCanvas() {
+        this._canvas = this.renderRoot.querySelector("#c")
+        if (!this._canvas) {
+            console.log("no canvas")
+            return false
+        }
+        window.innerWidth
+        const canvas = this._canvas as HTMLCanvasElement
+        const w = window.innerWidth
+        const h = window.innerHeight
+        console.log(`Resize event width=${w}, height=${h}`)
+        canvas.width = w
+        canvas.height = h
+        resizeThree()
+        return true
+    }
+    
     render() {
         return html`
             <header>
-            
+            <div class="controls">
+                <span>Controls:</span>
+            </div>
             </header>
             
             <main>
-                ${
-                    this.selected ? html`
-                        <route-view view=${this.selected}></route-view>
-                    ` : html`
-                        <component-selector .components=${comps}></component-selector>
-                    `
-                }
+                <canvas id="c" width="800" height="600"></canvas>
             </main>
             <footer>
             </footer>

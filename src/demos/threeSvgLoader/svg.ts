@@ -17,7 +17,8 @@ export const renderSVG = async (extrusion: number, svgUrl: string) => {
     // const svgData = loader.parse(svg)
 
     const svgGroup = new THREE.Group()
-    // svgGroup.scale.y *= -1
+    // svgGroup.scale.y *= -
+    
     svgGroup.scale.y = -0.002
     svgGroup.scale.x = 0.002
     const updateMap: UpdateMapItem[] = []
@@ -43,15 +44,15 @@ export const renderSVG = async (extrusion: number, svgUrl: string) => {
 
     const box = new THREE.Box3().setFromObject(svgGroup)
     const size = box.getSize(new THREE.Vector3())
-    const yOffset = size.y * -1000
-    const xOffset = size.x * -2000
+    // const yOffset = size.y * -1000
+    // const xOffset = size.x * -2000
 
-    // Offset all of group's elements, to center them
-    svgGroup.children.forEach((item) => {
-        item.position.x = xOffset
-        item.position.y = yOffset
-    })
-    svgGroup.rotateX(-Math.PI / 2)
+    // // Offset all of group's elements, to center them
+    // svgGroup.children.forEach((item) => {
+    //     item.position.x = xOffset
+    //     item.position.y = yOffset
+    // })
+    // svgGroup.rotateX(-Math.PI / 2)
 
     return {
         object: svgGroup,
