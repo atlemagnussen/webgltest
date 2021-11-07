@@ -1,7 +1,7 @@
 import {LitElement, html, css} from "lit"
 import {customElement} from "lit/decorators.js"
 
-import { initThree, resizeThree } from "./main"
+import { initThree, resizeThree, shutdown } from "./main"
 
 @customElement('three-test1')
 export class MainAppComponent extends LitElement {
@@ -61,6 +61,7 @@ export class MainAppComponent extends LitElement {
     disconnectedCallback() {
         super.disconnectedCallback()
         window.removeEventListener("resize", () => this.resizeCanvas())
+        shutdown()
     }
 
     updated() {

@@ -1,17 +1,25 @@
 import * as three from "three"
 
 let canvas: HTMLCanvasElement
-let renderer: three.WebGLRenderer
-let camera: three.PerspectiveCamera
-let scene: three.Scene
+let renderer: three.WebGLRenderer | null
+let camera: three.PerspectiveCamera | null
+let scene: three.Scene | null
 //let cube: three.Mesh<three.BoxGeometry, three.MeshBasicMaterial>
 let cubes: three.Mesh<any, three.MeshPhongMaterial>[]
-
+let anim = 0
 export const resizeThree = () => {
     if (renderer && canvas)
         renderer.setSize(canvas.width, canvas.height)
 }
-
+export const shutdown = () => {
+    if (anim){
+        window.cancelAnimationFrame(anim)
+    }
+    renderer = null
+    camera = null
+    scene = null
+    cubes = []
+}
 export const initThree = (can: HTMLCanvasElement) => {
     canvas = can
     renderer = new three.WebGLRenderer({canvas})
@@ -43,7 +51,7 @@ export const initThree = (can: HTMLCanvasElement) => {
     // scene.add(cube)
 
     renderer.render(scene, camera)
-    requestAnimationFrame(render)
+    anim = requestAnimationFrame(render)
 }
 
 function addLight() {
@@ -51,14 +59,14 @@ function addLight() {
     const intensity = 1
     const light = new three.DirectionalLight(color, intensity)
     light.position.set(-1, 2, 4)
-    scene.add(light)
+    scene?.add(light)
 }
 
 function makeInstance(geometry: any, color: three.ColorRepresentation, x: number) {
     const material = new three.MeshPhongMaterial({color})
    
     const cube = new three.Mesh(geometry, material)
-    scene.add(cube)
+    scene?.add(cube)
    
     cube.position.x = x
    
@@ -75,7 +83,7 @@ function render(time: number) {
         cube.rotation.y = rot;
     })
    
-    renderer.render(scene, camera)
+    renderer?.render(scene!, camera!)
    
-    requestAnimationFrame(render)
+    anim = requestAnimationFrame(render)
 }
