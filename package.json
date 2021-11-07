@@ -17,6 +17,8 @@
   "author": "atlemagnussen",
   "license": "ISC",
   "dependencies": {
+    "@material/mwc-button": "^0.25.3",
+    "@material/mwc-icon": "^0.25.3",
     "@material/mwc-select": "^0.25.3",
     "@types/three": "^0.133.1",
     "array-shuffle": "^3.0.0",

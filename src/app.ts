@@ -1,13 +1,17 @@
 import {LitElement, html, css} from "lit"
 import {customElement} from "lit/decorators.js"
 
-import "@app/views/routeView"
-import "@app/views/componentSelector"
-import "@app/styles/colors.css"
-import "@app/styles/site.css"
 
 import "@material/mwc-list"
 import "@material/mwc-list/mwc-list-item"
+
+
+import "@app/styles/colors.css"
+import "@app/styles/theme.css"
+import "@app/styles/site.css"
+
+import "@app/views/routeView"
+import "@app/views/componentSelector"
 
 import { selectedComponent } from "@app/stores/componentStore"
 import { Subscription } from "rxjs"

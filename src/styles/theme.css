@@ -1,0 +1,56 @@
+:root {
+
+    --av-main-background: var(--av-black);
+    --av-main-foreground: var(--av-grey);
+
+    --av-secondary-background: var(--av-black-light);
+    --av-secondary-foreground: var(--av-white);
+
+    --mdc-theme-primary: var(--av-secondary-foreground);
+    --mdc-theme-on-primary: black;
+    
+    --mdc-theme-background: var(--av-black);
+
+    --mdc-theme-secondary: var(--av-red);
+    --mdc-theme-on-secondary: var(--av-blue-purple);
+
+    --mdc-theme-surface: var(--av-blue-purple);
+    --mdc-theme-on-surface: var(--av-pink);
+
+    --mdc-theme-text-icon-on-background: var(--av-red);
+    --mdc-theme-text-primary-on-background: var(--av-main-foreground);
+    
+    --mdc-theme-error: var(--av-red);
+
+    /* select colors*/
+    --mdc-select-fill-color: var(--av-blue-purple);
+    --mdc-select-ink-color: var(--av-secondary-foreground);
+    --mdc-select-dropdown-icon-color: var(--av-secondary-foreground);
+}
+
+/*
+--mdc-theme-primary: var(--indigo-500);
+--mdc-theme-secondary: var(--lime-700);
+--mdc-theme-background: var(--grey-50);
+--mdc-theme-surface: #fff;
+--mdc-theme-error: #b00020;
+--mdc-theme-on-primary: #fff;
+--mdc-theme-on-secondary: #fff;
+--mdc-theme-on-surface: #000;
+--mdc-theme-on-error: #fff;
+--mdc-theme-text-primary-on-background: rgba(0, 0, 0, 0.87);
+--mdc-theme-text-secondary-on-background: rgba(0, 0, 0, 0.54);
+--mdc-theme-text-hint-on-background: rgba(0, 0, 0, 0.38);
+--mdc-theme-text-disabled-on-background: rgba(0, 0, 0, 0.38);
+--mdc-theme-text-icon-on-background: rgba(0, 0, 0, 0.38);
+--mdc-theme-text-primary-on-light: rgba(0, 0, 0, 0.87);
+--mdc-theme-text-secondary-on-light: rgba(0, 0, 0, 0.54);
+--mdc-theme-text-hint-on-light: rgba(0, 0, 0, 0.38);
+--mdc-theme-text-disabled-on-light: rgba(0, 0, 0, 0.38);
+--mdc-theme-text-icon-on-light: rgba(0, 0, 0, 0.38);
+--mdc-theme-text-primary-on-dark: white;
+--mdc-theme-text-secondary-on-dark: rgba(255, 255, 255, 0.7);
+--mdc-theme-text-hint-on-dark: rgba(255, 255, 255, 0.5);
+--mdc-theme-text-disabled-on-dark: rgba(255, 255, 255, 0.5);
+--mdc-theme-text-icon-on-dark: rgba(255, 255, 255, 0.5);
+*/
