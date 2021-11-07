@@ -20,7 +20,8 @@ export class ComponentSelector extends LitElement {
     setSelected(e: Event) {
         // @ts-ignore
         let val = e.currentTarget.value
-        setSelectedComponent(val)
+        if (val)
+            setSelectedComponent(val)
     }
 
     connectedCallback() {
@@ -34,7 +35,7 @@ export class ComponentSelector extends LitElement {
     render() {
         return html`
             <div>
-                SELECT
+                <p>SELECT</p>
                 <mwc-select @selected=${(e:any) => this.setSelected(e)}>
                     <mwc-list-item value=""></mwc-list-item>
                     ${this.components.map(c => {

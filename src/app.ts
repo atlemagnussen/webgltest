@@ -1,10 +1,11 @@
 import {LitElement, html, css} from "lit"
 import {customElement} from "lit/decorators.js"
 
-
+// import "@material/mwc-icon"
+// import "@material/mwc-button"
+import "@material/mwc-select"
 import "@material/mwc-list"
 import "@material/mwc-list/mwc-list-item"
-
 
 import "@app/styles/colors.css"
 import "@app/styles/theme.css"
@@ -12,6 +13,8 @@ import "@app/styles/site.css"
 
 import "@app/views/routeView"
 import "@app/views/componentSelector"
+
+import "@app/demos"
 
 import { selectedComponent } from "@app/stores/componentStore"
 import { Subscription } from "rxjs"
@@ -31,17 +34,22 @@ export class MainAppComponent extends LitElement {
 		    min-height: 100%;
 	    }
 	    header {
+            opacity: 0;
 		    position: absolute;
-            z-index: 10;
+            /* z-index: -1; */
             left: 0;
-            top: 0;
+            top: 100px;
             display: flex;
             flex-direction: row;
             gap: 0.5rem;
 		    justify-content: center;
 		    align-items: center;
-            width: 100%;
+            height: 300px;
 	    }
+        header:hover {
+            opacity: 1;
+            z-index: 10;
+        }
         main {
             background: var(--av-main-background);
         }
@@ -65,7 +73,10 @@ export class MainAppComponent extends LitElement {
     
     connectedCallback() {
         super.connectedCallback()
-        this.sub = selectedComponent.subscribe(s => this.selected = s)
+        this.sub = selectedComponent.subscribe(s => {
+            this.selected = s
+            this.requestUpdate()
+        })
     }
     disconnectedCallback() {
         super.disconnectedCallback()
@@ -74,7 +85,12 @@ export class MainAppComponent extends LitElement {
     render() {
         return html`
             <header>
-            
+                ${
+                    this.selected ? html`
+                    <div class="controls">
+                        <component-selector .components=${comps}></component-selector>
+                    </div>` : html``
+                }
             </header>
             
             <main>
