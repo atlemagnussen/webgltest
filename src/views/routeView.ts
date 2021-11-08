@@ -9,15 +9,15 @@ class RouteView extends HTMLElement {
     static get observedAttributes() {
         return ["view"]
     }
-    attributeChangedCallback(name: string, oldValue, newValue) {
+    attributeChangedCallback(name: string, oldValue: string, newValue: string) {
         if (name == "view") {
             this.component = newValue
             this.update()
         }
     }
-    connectedCallback() {
-        this.update()
-    }
+    // connectedCallback() {
+    //     this.update()
+    // }
     update() {
         const view = document.createElement(this.component)
         // if (this.param)

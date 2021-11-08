@@ -4,7 +4,7 @@ import {customElement} from "lit/decorators.js"
 import { initThree, resizeThree, shutdown } from "./main"
 
 @customElement('three-test1')
-export class MainAppComponent extends LitElement {
+export class ThreeTest1 extends LitElement {
     
     _canvas: HTMLCanvasElement | null = null
 

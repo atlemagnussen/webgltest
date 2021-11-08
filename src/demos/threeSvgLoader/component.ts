@@ -4,7 +4,7 @@ import {customElement} from "lit/decorators.js"
 import { setup, changExtrusion, changeScale, stop } from "./main"
 
 @customElement('three-svg-loader1')
-export class MainAppComponent extends LitElement {
+export class ThreeSvgComp extends LitElement {
     
     _canvas: HTMLCanvasElement | null = null
 
