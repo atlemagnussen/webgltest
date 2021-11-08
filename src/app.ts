@@ -82,7 +82,7 @@ export class MainAppComponent extends LitElement {
         }
         
         a {
-            color: var(--av-main-foreground);
+            color: var(--gl-main-foreground);
         }
     `    
     
@@ -124,13 +124,16 @@ export class MainAppComponent extends LitElement {
                         </div>
                     `
                 }
+                <div class="links">
+                    <p>
+                        <a href="https://github.com/atlemagnussen/webgltest">
+                            <img src="https://github.githubassets.com/images/modules/site/icons/footer/github-mark.svg" width="20" height="20" class="d-block" loading="lazy" decoding="async" alt="GitHub mark">
+                        </a>
+                    </p>
+                </div>
             </main>
             <footer>
-                <p>
-                    <a href="https://github.com/atlemagnussen/webgltest">
-                        <img src="https://github.githubassets.com/images/modules/site/icons/footer/github-mark.svg" width="20" height="20" class="d-block" loading="lazy" decoding="async" alt="GitHub mark">
-                    </a>
-                </p>
+                
             </footer>
         `
     }

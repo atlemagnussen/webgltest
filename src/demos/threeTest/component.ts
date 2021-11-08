@@ -46,7 +46,7 @@ export class ThreeTest1 extends LitElement {
         }
         
         a {
-            color: var(--av-main-foreground);
+            color: var(--gl-main-foreground);
         }
 
         canvas {

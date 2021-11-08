@@ -1,12 +1,12 @@
 :root {
 
     --gl-main-background: var(--av-black);
-    --av-main-foreground: var(--av-grey);
+    --gl-main-foreground: var(--av-grey);
 
-    --av-secondary-background: var(--av-black-light);
-    --av-secondary-foreground: var(--av-white);
+    --gl-secondary-background: var(--av-black-light);
+    --gl-secondary-foreground: var(--av-white);
 
-    --mdc-theme-primary: var(--av-secondary-foreground);
+    --mdc-theme-primary: var(--gl-secondary-foreground);
     --mdc-theme-on-primary: black;
     
     --mdc-theme-background: var(--av-black);
@@ -18,14 +18,14 @@
     --mdc-theme-on-surface: var(--av-pink);
 
     --mdc-theme-text-icon-on-background: var(--av-red);
-    --mdc-theme-text-primary-on-background: var(--av-main-foreground);
+    --mdc-theme-text-primary-on-background: var(--gl-main-foreground);
     
     --mdc-theme-error: var(--av-red);
 
     /* select colors*/
     --mdc-select-fill-color: var(--av-blue-purple);
-    --mdc-select-ink-color: var(--av-secondary-foreground);
-    --mdc-select-dropdown-icon-color: var(--av-secondary-foreground);
+    --mdc-select-ink-color: var(--gl-secondary-foreground);
+    --mdc-select-dropdown-icon-color: var(--gl-secondary-foreground);
 }
 
 /*
