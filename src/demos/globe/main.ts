@@ -47,7 +47,7 @@ export const setup = (canvas: HTMLCanvasElement) => {
     })
     renderer.setPixelRatio(window.devicePixelRatio)
     //renderer.setSize(window.innerWidth, window.innerHeight)
-    camera.position.z = 10
+    camera.position.z = 15
 
     renderer.render(scene, camera)
 

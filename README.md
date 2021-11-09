@@ -11,4 +11,4 @@ https://raw.githubusercontent.com/gpjt/webgl-lessons/master/lesson11/moon.gif
 
 gsutil cors set cors-trainq.json gs://trainquility-project.appspot.com
 
-globe tutorial: https://youtu.be/vM8M4QloVL0?t=3430
+globe tutorial: https://www.youtube.com/watch?v=vM8M4QloVL0&t=3430s
