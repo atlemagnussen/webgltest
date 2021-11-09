@@ -31,6 +31,7 @@ export class GlobePage extends LitElement {
             height: 100vh;
             width: 100%;
 		    min-height: 100%;
+            touch-action: none;
 	    }
 
         main {

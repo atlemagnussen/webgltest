@@ -1,5 +1,5 @@
 import * as THREE from "three"
-import { OrbitControls } from "three/examples/jsm/controls/OrbitControls"
+// import { OrbitControls } from "three/examples/jsm/controls/OrbitControls"
 
 import vertexShader from "./shaders/vertex"
 import fragmentShader from "./shaders/fragment"
@@ -20,11 +20,11 @@ const globeUrl = "https://storage.googleapis.com/trainquility-project.appspot.co
 let scene: THREE.Scene
 let camera: THREE.PerspectiveCamera
 let renderer: THREE.WebGLRenderer
-let controls: OrbitControls
+// let controls: OrbitControls
 
 let anim = 0
 
-// let torus: THREE.Mesh
+let group: THREE.Group
 let moon: THREE.Mesh
 let earth: THREE.Mesh
 let earthMaterial: THREE.ShaderMaterial
@@ -51,29 +51,43 @@ export const setup = (canvas: HTMLCanvasElement) => {
 
     renderer.render(scene, camera)
 
-    const pointLight = new THREE.PointLight(0xFFFFFF)
-    pointLight.position.set(20, 20, 20)
-    scene.add(pointLight)
-
-    const ambientLight = new THREE.AmbientLight(0xFFFFFF)
-    scene.add(ambientLight)
-
-    // const gridHelper = new THREE.GridHelper(200, 50)
-    // scene.add(gridHelper)
-
-    controls = new OrbitControls(camera, canvas)
+    // controls = new OrbitControls(camera, canvas)
     // addSpaceBackground()
+    addLight()
     addEarth()
     addAtmosphere()
     addMoon()
     addStars()
+    addPointerEvents()
     animate()
 }
 
-function addSpaceBackground() {
-    const spaceTexture = new THREE.TextureLoader().load(spaceUrl)
-    scene.background = spaceTexture
+function addLight() {
+    // const pointLight = new THREE.PointLight(0xFFFFFF)
+    // pointLight.position.set(0, 20, 20)
+    // scene.add(pointLight)
+
+    const ambientLight = new THREE.AmbientLight(0xFFFFFF)
+    scene.add(ambientLight)
 }
+
+let mouse = { x: 0, y: 0, dragging: false}
+function addPointerEvents() {
+    let passive = { passive: true}
+    document.addEventListener("pointerdown", () => {
+        mouse.dragging = true
+    }, passive)
+    document.addEventListener("pointermove", (event: PointerEvent) => {
+        if (mouse.dragging) {
+            mouse.x = (event.clientX / window.innerWidth) * 2 - 1
+            mouse.y = (event.clientY / window.innerHeight) * 2 - 1
+        }
+    }, passive)
+    document.addEventListener("pointerup", () => {
+        mouse.dragging = false
+    }, passive)
+}
+
 function addEarth() {
     const earthTexture = new THREE.TextureLoader().load(globeUrl)
     // earthMaterial = new THREE.MeshStandardMaterial({
@@ -92,8 +106,9 @@ function addEarth() {
         new THREE.SphereGeometry(5, 50, 50),
         earthMaterial
     )
-    scene.add(earth)
-    // earth.rotation.x = 0.7
+    group = new THREE.Group()
+    group.add(earth)
+    scene.add(group)
 }
 
 function addAtmosphere() {
@@ -108,7 +123,7 @@ function addAtmosphere() {
         new THREE.SphereGeometry(5, 50, 50),
         atmosphereMaterial
     )
-    atmosphere.scale.set(1.4, 1.4, 1.4)
+    atmosphere.scale.set(1.1, 1.1, 1.1)
     scene.add(atmosphere)
 }
 
@@ -137,7 +152,7 @@ function addStars() {
     })
     const stars = new THREE.Points(starGeometry, starMaterial)
     const starVerticies: number[] = []
-    for (let i = 0; i < 10000; i++) {
+    for (let i = 0; i < 20000; i++) {
         const x = (Math.random() -0.5) * 2000
         const y = (Math.random() -0.5) * 2000
         const z = -Math.random() * 2000
@@ -156,24 +171,12 @@ function animate() {
     // else color += 1
     // earthMaterial.color = new THREE.Color(`rgb(${color}, ${color}, ${color})`)
     
-    earth.rotation.y += 0.005
-    
-    // torus.rotation.z += 0.01
+    earth.rotation.y += 0.002
+    group.rotation.y = mouse.x
+    group.rotation.x = mouse.y
 
-    controls.update()
+    // controls.update()
 
     renderer.render(scene, camera)
     anim = requestAnimationFrame(animate)
-}
-
-document.onscroll = onScroll
-function onScroll() {
-    const t = document.body.getBoundingClientRect().top
-    moon.rotation.x += 0.05;
-    moon.rotation.y += 0.075;
-    moon.rotation.z += 0.05;
-
-    camera.position.z = t * -0.01;
-    camera.position.x = t * 0.0002;
-    camera.rotation.y = t * 0.0002;
 }
