@@ -54,6 +54,14 @@ export class LandingPage extends LitElement {
             width: 100%;
             height: 100%;
         }
+        article {
+            background: var(--gl-controls-background);
+            padding: 1rem;
+            border-radius: 5px;
+        }
+        h1, h2, h3, h4, h5, h6, p, pre {
+            padding: 0.5rem;
+        }
         @media only screen and (max-width: 640px) {
             article {
                 width: 100vw;
