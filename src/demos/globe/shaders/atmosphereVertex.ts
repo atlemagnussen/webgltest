@@ -1,7 +1,6 @@
 let glsl = String.raw
 
-const vertexShader = glsl`
-
+const shader = glsl`
     varying vec2 vertexUV;
     varying vec3 vertexNormal;
 
@@ -10,7 +9,6 @@ const vertexShader = glsl`
         vertexNormal = normal;
         gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
     }
-
 `
 
-export default vertexShader
+export default shader

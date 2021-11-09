@@ -14,7 +14,7 @@ const moonUrl = "https://storage.googleapis.com/trainquility-project.appspot.com
 const normalUrl = "https://storage.googleapis.com/trainquility-project.appspot.com/assets/normal.jpeg"
 
 //@ts-ignore
-import globeUrl from "@app/assets/globe4.jpg"
+const globeUrl = "https://storage.googleapis.com/trainquility-project.appspot.com/assets/globe5.jpg"
 
 let scene: THREE.Scene
 let camera: THREE.PerspectiveCamera
@@ -92,6 +92,22 @@ function addEarth() {
     scene.add(earth)
     earth.rotation.x = 0.7
 }
+
+function addAtmosphere() {
+    
+    let atmosphereMaterial = new THREE.ShaderMaterial({
+        vertexShader,
+        fragmentShader,
+    })
+    let atmosphere = new THREE.Mesh(
+        new THREE.SphereGeometry(5, 50, 50),
+        atmosphereMaterial
+    )
+    atmosphere.scale.set(1.1, 1.1, 1.1)
+    scene.add(atmosphere)
+    earth.rotation.x = 0.7
+}
+
 function addMoon() {
     const moonTexture = new THREE.TextureLoader().load(moonUrl)
     const normalTexture = new THREE.TextureLoader().load(normalUrl)
