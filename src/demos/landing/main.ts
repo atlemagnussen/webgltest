@@ -27,11 +27,15 @@ export const stop = () => {
 }
 
 export const setup = (canvas: HTMLCanvasElement) => {
+
+    canvas.height = window.innerHeight
+    canvas.width = window.innerWidth
+
     scene = new THREE.Scene()
     camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
     renderer = new THREE.WebGLRenderer({canvas})
     renderer.setPixelRatio(window.devicePixelRatio)
-    renderer.setSize(window.innerWidth, window.innerHeight)
+    //renderer.setSize(window.innerWidth, window.innerHeight)
     camera.position.setZ(50)
 
     renderer.render(scene, camera)
@@ -68,6 +72,7 @@ function addSpaceObjects() {
     moon = new THREE.Mesh(
         new THREE.SphereGeometry(3, 32, 32),
         new THREE.MeshStandardMaterial({
+            color: 0xFFFF00,
             map: moonTexture,
             normalMap: normalTexture
         })

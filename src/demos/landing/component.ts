@@ -29,7 +29,7 @@ export class LandingPage extends LitElement {
 		    grid-template-rows: auto 1fr auto;
 		    box-sizing: border-box;
             height: 100vh;
-            width: 100vw;
+             width: 100%;
 		    min-height: 100%;
 	    }
 	    
@@ -37,7 +37,7 @@ export class LandingPage extends LitElement {
             box-sizing: border-box;
             width: 50vw;
             margin: auto;
-            color: var(--cyan);
+            color: white;
         }
         main {
             background: var(--av-main-background);
@@ -46,12 +46,13 @@ export class LandingPage extends LitElement {
             z-index: 10;
         }
         canvas {
+            display: block;
             position: fixed;
             top: 0;
             left: 0;
             background-color: black;
-            height: 100vh;
-            width: 100vw;
+            width: 100%;
+            height: 100%;
         }
         @media only screen and (max-width: 640px) {
             article {
