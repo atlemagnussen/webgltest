@@ -2,9 +2,10 @@ import * as THREE from "three"
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls"
 
 import vertexShader from "./shaders/vertex"
-console.log(vertexShader)
 import fragmentShader from "./shaders/fragment"
-console.log(fragmentShader)
+
+import atmosVertexShader from "./shaders/atmosphereVertex"
+import atmosFragmentShader from "./shaders/atmosphereFragment"
 
 //import spaceUrl from "@app/assets/space2.jpeg"
 const spaceUrl = "https://storage.googleapis.com/trainquility-project.appspot.com/assets/space2.jpeg"
@@ -63,6 +64,7 @@ export const setup = (canvas: HTMLCanvasElement) => {
     controls = new OrbitControls(camera, canvas)
     // addSpaceBackground()
     addEarth()
+    addAtmosphere()
     addMoon()
     animate()
 }
@@ -90,22 +92,23 @@ function addEarth() {
         earthMaterial
     )
     scene.add(earth)
-    earth.rotation.x = 0.7
+    // earth.rotation.x = 0.7
 }
 
 function addAtmosphere() {
     
     let atmosphereMaterial = new THREE.ShaderMaterial({
-        vertexShader,
-        fragmentShader,
+        vertexShader: atmosVertexShader,
+        fragmentShader: atmosFragmentShader,
+        blending: THREE.AdditiveBlending,
+        side: THREE.BackSide
     })
     let atmosphere = new THREE.Mesh(
         new THREE.SphereGeometry(5, 50, 50),
         atmosphereMaterial
     )
-    atmosphere.scale.set(1.1, 1.1, 1.1)
+    atmosphere.scale.set(1.4, 1.4, 1.4)
     scene.add(atmosphere)
-    earth.rotation.x = 0.7
 }
 
 function addMoon() {
