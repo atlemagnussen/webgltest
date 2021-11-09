@@ -66,6 +66,7 @@ export const setup = (canvas: HTMLCanvasElement) => {
     addEarth()
     addAtmosphere()
     addMoon()
+    addStars()
     animate()
 }
 
@@ -128,14 +129,23 @@ function addMoon() {
     moon.position.z = -60
 }
 
-function addStar() {
-    const geometry = new THREE.SphereGeometry(0.25, 24, 24)
-    const material = new THREE.MeshStandardMaterial({color: 0xFFFFFF})
-    const star = new THREE.Mesh(geometry, material)
+function addStars() {
 
-    const [x, y, z] = Array(3).fill(0).map(a => THREE.MathUtils.randFloatSpread(100))
-    star.position.set(x, y, z)
-    scene.add(star)
+    const starGeometry = new THREE.BufferGeometry()
+    const starMaterial = new THREE.PointsMaterial({
+        color: 0xffffff
+    })
+    const stars = new THREE.Points(starGeometry, starMaterial)
+    const starVerticies: number[] = []
+    for (let i = 0; i < 10000; i++) {
+        const x = (Math.random() -0.5) * 2000
+        const y = (Math.random() -0.5) * 2000
+        const z = -Math.random() * 2000
+        starVerticies.push(x, y, z)
+    }
+
+    starGeometry.setAttribute("position", new THREE.Float32BufferAttribute(starVerticies, 3))
+    scene.add(stars)
 }
 
 // const lights = [0x111111, 0x222222, 0x333333, 0x444444, 0x555555, 0x666666, 0x777777, 0x888888, 0x999999, 0xAAAAAA, 0xBBBBBB, 0xCCCCCC, 0xDDDDDD, 0xEEEEEE, 0xFFFFFF]
