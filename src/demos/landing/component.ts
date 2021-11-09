@@ -29,7 +29,7 @@ export class LandingPage extends LitElement {
 		    grid-template-rows: auto 1fr auto;
 		    box-sizing: border-box;
             height: 100vh;
-             width: 100%;
+            width: 100%;
 		    min-height: 100%;
 	    }
 	    
