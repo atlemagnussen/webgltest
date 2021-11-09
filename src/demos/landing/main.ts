@@ -2,11 +2,14 @@ import * as THREE from "three"
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls"
 
 //@ts-ignore
-import spaceUrl from "@app/assets/space.jpeg"
+//import spaceUrl from "@app/assets/space2.jpeg"
+const spaceUrl = "https://storage.googleapis.com/trainquility-project.appspot.com/assets/space2.jpeg"
 //@ts-ignore
-import moonUrl from "@app/assets/moon.jpeg"
+//import moonUrl from "@app/assets/moon.jpeg"
+const moonUrl = "https://storage.googleapis.com/trainquility-project.appspot.com/assets/moon.jpeg"
 //@ts-ignore
-import normalUrl from "@app/assets/normal.jpeg"
+//import normalUrl from "@app/assets/normal.jpeg"
+const normalUrl = "https://storage.googleapis.com/trainquility-project.appspot.com/assets/normal.jpeg"
 
 let scene: THREE.Scene
 let camera: THREE.PerspectiveCamera
@@ -29,7 +32,7 @@ export const setup = (canvas: HTMLCanvasElement) => {
     renderer = new THREE.WebGLRenderer({canvas})
     renderer.setPixelRatio(window.devicePixelRatio)
     renderer.setSize(window.innerWidth, window.innerHeight)
-    camera.position.setZ(30)
+    camera.position.setZ(50)
 
     renderer.render(scene, camera)
 
@@ -63,14 +66,14 @@ function addSpaceObjects() {
     const moonTexture = new THREE.TextureLoader().load(moonUrl)
     const normalTexture = new THREE.TextureLoader().load(normalUrl)
     moon = new THREE.Mesh(
-        new THREE.SphereGeometry(6, 32, 32),
+        new THREE.SphereGeometry(3, 32, 32),
         new THREE.MeshStandardMaterial({
             map: moonTexture,
             normalMap: normalTexture
         })
     )
     scene.add(moon)
-    // moon.position.z = 15
+    moon.position.z = -15
     // moon.position.x = -15
 
 
@@ -101,7 +104,12 @@ function animate() {
 
 document.onscroll = onScroll
 function onScroll() {
-    moon.rotation.x += 0.01
-    // torus.rotation.y += 0.005
-    // torus.rotation.z += 0.01
+    const t = document.body.getBoundingClientRect().top
+    moon.rotation.x += 0.05;
+    moon.rotation.y += 0.075;
+    moon.rotation.z += 0.05;
+
+    camera.position.z = t * -0.01;
+    camera.position.x = t * 0.0002;
+    camera.rotation.y = t * 0.0002;
 }

@@ -9,15 +9,15 @@ export class LandingPage extends LitElement {
     _isrunning = false
     _canvas: HTMLCanvasElement | null = null
 
-    debounceSetup: Function
     interval = 500
+    debounceSetup = debounce(() => {
+        console.log("debounce setup")
+        if (this._canvas)
+            setup(this._canvas!)
+    }, 500, this.interval)
+    
     constructor() {
         super()
-        this.debounceSetup = debounce(() => {
-            console.log("debounce setup")
-            if (this._canvas)
-                setup(this._canvas!)
-        }, 500, this.interval)
     }
     static styles = css`
         :host {
