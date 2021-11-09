@@ -1,5 +1,7 @@
 import { defineConfig } from "vite"
 import path from "path"
+// import vitePluginString from "vite-plugin-string"
+
 
 const projectRootDir = path.resolve(__dirname)
 const appSrcPath = path.resolve(projectRootDir, "src")

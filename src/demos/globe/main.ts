@@ -1,7 +1,11 @@
 import * as THREE from "three"
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls"
 
-//@ts-ignore
+import vertexShader from "./shaders/vertex"
+console.log(vertexShader)
+import fragmentShader from "./shaders/fragment"
+console.log(fragmentShader)
+
 //import spaceUrl from "@app/assets/space2.jpeg"
 const spaceUrl = "https://storage.googleapis.com/trainquility-project.appspot.com/assets/space2.jpeg"
 //@ts-ignore
@@ -22,7 +26,7 @@ let anim = 0
 // let torus: THREE.Mesh
 let moon: THREE.Mesh
 let earth: THREE.Mesh
-let earthMaterial: THREE.MeshStandardMaterial
+let earthMaterial: THREE.ShaderMaterial
 
 export const stop = () => {
     if (anim)
@@ -69,8 +73,17 @@ function addSpaceBackground() {
 }
 function addEarth() {
     const earthTexture = new THREE.TextureLoader().load(globeUrl)
-    earthMaterial = new THREE.MeshStandardMaterial({
-        map: earthTexture
+    // earthMaterial = new THREE.MeshStandardMaterial({
+    //     map: earthTexture
+    // })
+    earthMaterial = new THREE.ShaderMaterial({
+        vertexShader,
+        fragmentShader,
+        uniforms: {
+            globeTexture: {
+                value: earthTexture
+            }
+        }
     })
     earth = new THREE.Mesh(
         new THREE.SphereGeometry(5, 50, 50),
