@@ -40,9 +40,9 @@ export const stop = () => {
     if (anim)
         cancelAnimationFrame(anim)
 }
-
-export const setup = (canvas: HTMLCanvasElement) => {
-
+let popup: HTMLDivElement
+export const setup = (canvas: HTMLCanvasElement, pop: HTMLDivElement) => {
+    popup = pop
     canvas.height = window.innerHeight
     canvas.width = window.innerWidth
 
@@ -94,6 +94,8 @@ const onPointerDown = (event: PointerEvent) => {
 const onPointerMove = (event: PointerEvent) => {
     pointer.x = ( event.clientX / window.innerWidth ) * 2 - 1
 	pointer.y = - ( event.clientY / window.innerHeight ) * 2 + 1
+    popup.style.top = `${event.clientY}px`
+    popup.style.left = `${event.clientX}px`
     if (mouse.dragging) {
         let xDiff = event.clientX - mouse.startX
         let yDiff = event.clientY - mouse.startY
@@ -109,8 +111,6 @@ const onPointerUp = (event: PointerEvent) => {
     mouse.dragging = false
 }
 function addPointerEvents() {
-    
-
     document.addEventListener("pointerdown", onPointerDown, passive)
     document.addEventListener("pointermove", onPointerMove, passive)
     document.addEventListener("pointerup", onPointerUp, passive)
@@ -193,14 +193,14 @@ function addStars() {
 }
 
 function addSkyscrapers() {
-    addPointPrismOnEarth(latme, lngme)
-    addPointPrismOnEarth(19.446324014224473, -99.13188325511402)
-    addPointPrismOnEarth(71.18301404094616, -39.57334891124896)
-    addPointPrismOnEarth(-34.33083444904446, 18.50977885005987)
-    addPointPrismOnEarth(17.42632336685964, 78.29669360821666)
-    addPointPrismOnEarth(-27.011764910945658, 136.8570329340568)
-    addPointPrismOnEarth(18.089346806053346, -15.973812277073197)
-    addPointPrismOnEarth(-33.66456622133675, -58.535725571563326)
+    addPointPrismOnEarth(latme, lngme, "atle")
+    addPointPrismOnEarth(19.446324014224473, -99.13188325511402, "Mexico")
+    addPointPrismOnEarth(71.18301404094616, -39.57334891124896, "Greenland")
+    addPointPrismOnEarth(-34.33083444904446, 18.50977885005987, "South Africa")
+    addPointPrismOnEarth(17.42632336685964, 78.29669360821666, "India")
+    addPointPrismOnEarth(-27.011764910945658, 136.8570329340568, "Australia")
+    addPointPrismOnEarth(18.089346806053346, -15.973812277073197, "Mauritania")
+    addPointPrismOnEarth(-33.66456622133675, -58.535725571563326, "Argentina")
 }
 
 function addPointOnEarth(lat: number, lng: number) {
@@ -221,7 +221,7 @@ function addPointOnEarth(lat: number, lng: number) {
     group.add(point)
 }
 
-function addPointPrismOnEarth(lat: number, lng: number) {
+function addPointPrismOnEarth(lat: number, lng: number, name: string) {
     const latRad = (lat / 180) * Math.PI
     const lngRad = (lng / 180) * Math.PI
 
@@ -241,6 +241,7 @@ function addPointPrismOnEarth(lat: number, lng: number) {
     box.position.set(x, y, z)
     box.lookAt(0, 0, 0)
     box.geometry.applyMatrix4(new THREE.Matrix4().makeTranslation(0, 0, -height/2))
+    box.name = name
     group.add(box)
 }
 
@@ -257,16 +258,22 @@ function animate() {
     group.rotation.x = mouse.y
 
     raycaster.setFromCamera(pointer, camera)
-    const intersects = raycaster.intersectObjects(group.children.filter(m => {
+    const allBoxes = group.children.filter(m => {
         const mesh = m as THREE.Mesh
         return mesh.geometry.type === "BoxGeometry"
-    }))
+    })
+    allBoxes.forEach(b => {
+        const box = b as THREE.Mesh<THREE.BoxGeometry, THREE.MeshBasicMaterial>
+        box.material.opacity = 0.4
+    })
+    popup.style.display = "none"
+    const intersects = raycaster.intersectObjects(allBoxes)
 	for ( let i = 0; i < intersects.length; i ++ ) {
-		const box = intersects[i].object as THREE.Mesh
-        const material = box.material as THREE.MeshBasicMaterial
-        material.opacity = 1
+		const box = intersects[i].object as THREE.Mesh<THREE.BoxGeometry, THREE.MeshBasicMaterial>
+        box.material.opacity = 1
+        popup.style.display = "block"
+        popup.innerHTML = `<span>${box.name}</span>`
 	}
-
     // controls.update()
 
     renderer.render(scene, camera)
