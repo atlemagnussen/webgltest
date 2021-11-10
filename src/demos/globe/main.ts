@@ -61,6 +61,13 @@ export const setup = (canvas: HTMLCanvasElement) => {
     addLight()
     addEarth()
     addPointOnEarth(latme, lngme)
+    addPointOnEarth(19.446324014224473, -99.13188325511402)
+    addPointOnEarth(71.18301404094616, -39.57334891124896)
+    addPointOnEarth(-34.33083444904446, 18.50977885005987)
+    addPointOnEarth(17.42632336685964, 78.29669360821666)
+    addPointOnEarth(-27.011764910945658, 136.8570329340568)
+    addPointOnEarth(18.089346806053346, -15.973812277073197)
+    addPointOnEarth(-33.66456622133675, -58.535725571563326)
     addAtmosphere()
     addMoon()
     addStars()
@@ -77,19 +84,31 @@ function addLight() {
     scene.add(ambientLight)
 }
 
-let mouse = { x: 0, y: 0, dragging: false}
+let mouse = {
+    startX: 0, startY: 0,
+    x: 0, y: 0, 
+    dragging: false
+}
 function addPointerEvents() {
     let passive = { passive: true}
-    document.addEventListener("pointerdown", () => {
+    document.addEventListener("pointerdown", (event: PointerEvent) => {
         mouse.dragging = true
+        mouse.startX = event.clientX
+        mouse.startY = event.clientY
     }, passive)
     document.addEventListener("pointermove", (event: PointerEvent) => {
         if (mouse.dragging) {
-            mouse.x = (event.clientX / window.innerWidth) * 2 - 1
-            mouse.y = (event.clientY / window.innerHeight) * 2 - 1
+            let xDiff = event.clientX - mouse.startX
+            let yDiff = event.clientY - mouse.startY
+            mouse.startX = event.clientX
+            mouse.startY = event.clientY
+            let xDiffNorm = (xDiff / window.innerWidth) * 2
+            let yDiffNorm = (yDiff / window.innerHeight) * 2
+            mouse.x += xDiffNorm
+            mouse.y += yDiffNorm
         }
     }, passive)
-    document.addEventListener("pointerup", () => {
+    document.addEventListener("pointerup", (event: PointerEvent) => {
         mouse.dragging = false
     }, passive)
 }
