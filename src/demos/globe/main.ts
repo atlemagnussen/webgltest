@@ -60,14 +60,14 @@ export const setup = (canvas: HTMLCanvasElement) => {
     // addSpaceBackground()
     addLight()
     addEarth()
-    addPointOnEarth(latme, lngme)
-    addPointOnEarth(19.446324014224473, -99.13188325511402)
-    addPointOnEarth(71.18301404094616, -39.57334891124896)
-    addPointOnEarth(-34.33083444904446, 18.50977885005987)
-    addPointOnEarth(17.42632336685964, 78.29669360821666)
-    addPointOnEarth(-27.011764910945658, 136.8570329340568)
-    addPointOnEarth(18.089346806053346, -15.973812277073197)
-    addPointOnEarth(-33.66456622133675, -58.535725571563326)
+    addPointPrismOnEarth(latme, lngme)
+    addPointPrismOnEarth(19.446324014224473, -99.13188325511402)
+    addPointPrismOnEarth(71.18301404094616, -39.57334891124896)
+    addPointPrismOnEarth(-34.33083444904446, 18.50977885005987)
+    addPointPrismOnEarth(17.42632336685964, 78.29669360821666)
+    addPointPrismOnEarth(-27.011764910945658, 136.8570329340568)
+    addPointPrismOnEarth(18.089346806053346, -15.973812277073197)
+    addPointPrismOnEarth(-33.66456622133675, -58.535725571563326)
     addAtmosphere()
     addMoon()
     addStars()
@@ -207,6 +207,26 @@ function addPointOnEarth(lat: number, lng: number) {
     group.add(point)
 }
 
+function addPointPrismOnEarth(lat: number, lng: number) {
+    const latRad = (lat / 180) * Math.PI
+    const lngRad = (lng / 180) * Math.PI
+
+    const height = 0.8
+    const point = new THREE.Mesh(
+        new THREE.BoxGeometry(0.1, 0.1, height),
+        new THREE.MeshBasicMaterial({
+            color: 0xFF0000
+        })
+    )
+    const x = earthRadius * Math.cos(latRad) * Math.sin(lngRad)
+    const y = earthRadius * Math.sin(latRad)
+    const z = earthRadius * Math.cos(latRad) * Math.cos(lngRad)
+
+    point.position.set(x, y, z)
+    point.lookAt(0, 0, 0)
+    point.geometry.applyMatrix4(new THREE.Matrix4().makeTranslation(0, 0, -height/2))
+    group.add(point)
+}
 
 // const lights = [0x111111, 0x222222, 0x333333, 0x444444, 0x555555, 0x666666, 0x777777, 0x888888, 0x999999, 0xAAAAAA, 0xBBBBBB, 0xCCCCCC, 0xDDDDDD, 0xEEEEEE, 0xFFFFFF]
 // let color = 0
