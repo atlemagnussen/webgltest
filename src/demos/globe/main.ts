@@ -24,10 +24,15 @@ let renderer: THREE.WebGLRenderer
 
 let anim = 0
 
+const earthRadius = 5
 let group: THREE.Group
 let moon: THREE.Mesh
 let earth: THREE.Mesh
 let earthMaterial: THREE.ShaderMaterial
+
+// me lat: 58.95071797166171 lng: 5.697703979485407
+const latme = 58.95071797166171
+const lngme = 5.697703979485407
 
 export const stop = () => {
     if (anim)
@@ -55,6 +60,7 @@ export const setup = (canvas: HTMLCanvasElement) => {
     // addSpaceBackground()
     addLight()
     addEarth()
+    addPointOnEarth(latme, lngme)
     addAtmosphere()
     addMoon()
     addStars()
@@ -103,9 +109,10 @@ function addEarth() {
         }
     })
     earth = new THREE.Mesh(
-        new THREE.SphereGeometry(5, 50, 50),
+        new THREE.SphereGeometry(earthRadius, 50, 50),
         earthMaterial
     )
+    earth.rotation.y = -Math.PI / 2
     group = new THREE.Group()
     group.add(earth)
     scene.add(group)
@@ -163,6 +170,25 @@ function addStars() {
     scene.add(stars)
 }
 
+function addPointOnEarth(lat: number, lng: number) {
+    const latRad = (lat / 180) * Math.PI
+    const lngRad = (lng / 180) * Math.PI
+
+    const point = new THREE.Mesh(
+        new THREE.SphereGeometry(0.1, 8, 8),
+        new THREE.MeshBasicMaterial({
+            color: 0xFF0000
+        })
+    )
+    const x = earthRadius * Math.cos(latRad) * Math.sin(lngRad)
+    const y = earthRadius * Math.sin(latRad)
+    const z = earthRadius * Math.cos(latRad) * Math.cos(lngRad)
+
+    point.position.set(x, y, z)
+    group.add(point)
+}
+
+
 // const lights = [0x111111, 0x222222, 0x333333, 0x444444, 0x555555, 0x666666, 0x777777, 0x888888, 0x999999, 0xAAAAAA, 0xBBBBBB, 0xCCCCCC, 0xDDDDDD, 0xEEEEEE, 0xFFFFFF]
 // let color = 0
 function animate() {
@@ -171,7 +197,7 @@ function animate() {
     // else color += 1
     // earthMaterial.color = new THREE.Color(`rgb(${color}, ${color}, ${color})`)
     
-    earth.rotation.y += 0.002
+    // group.rotation.y += 0.002
     group.rotation.y = mouse.x
     group.rotation.x = mouse.y
 
