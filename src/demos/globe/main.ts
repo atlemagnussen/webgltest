@@ -1,4 +1,5 @@
 import * as THREE from "three"
+
 // import { OrbitControls } from "three/examples/jsm/controls/OrbitControls"
 
 import vertexShader from "./shaders/vertex"
@@ -29,6 +30,7 @@ let group: THREE.Group
 let moon: THREE.Mesh
 let earth: THREE.Mesh
 let earthMaterial: THREE.ShaderMaterial
+const raycaster = new THREE.Raycaster()
 
 // me lat: 58.95071797166171 lng: 5.697703979485407
 const latme = 58.95071797166171
@@ -60,14 +62,7 @@ export const setup = (canvas: HTMLCanvasElement) => {
     // addSpaceBackground()
     addLight()
     addEarth()
-    addPointPrismOnEarth(latme, lngme)
-    addPointPrismOnEarth(19.446324014224473, -99.13188325511402)
-    addPointPrismOnEarth(71.18301404094616, -39.57334891124896)
-    addPointPrismOnEarth(-34.33083444904446, 18.50977885005987)
-    addPointPrismOnEarth(17.42632336685964, 78.29669360821666)
-    addPointPrismOnEarth(-27.011764910945658, 136.8570329340568)
-    addPointPrismOnEarth(18.089346806053346, -15.973812277073197)
-    addPointPrismOnEarth(-33.66456622133675, -58.535725571563326)
+    addSkyscrapers()
     addAtmosphere()
     addMoon()
     addStars()
@@ -84,33 +79,41 @@ function addLight() {
     scene.add(ambientLight)
 }
 
+const pointer = new THREE.Vector2()
 let mouse = {
     startX: 0, startY: 0,
     x: 0, y: 0, 
     dragging: false
 }
-function addPointerEvents() {
-    let passive = { passive: true}
-    document.addEventListener("pointerdown", (event: PointerEvent) => {
-        mouse.dragging = true
+let passive = { passive: true}
+const onPointerDown = (event: PointerEvent) => {
+    mouse.dragging = true
+    mouse.startX = event.clientX
+    mouse.startY = event.clientY
+}
+const onPointerMove = (event: PointerEvent) => {
+    pointer.x = ( event.clientX / window.innerWidth ) * 2 - 1
+	pointer.y = - ( event.clientY / window.innerHeight ) * 2 + 1
+    if (mouse.dragging) {
+        let xDiff = event.clientX - mouse.startX
+        let yDiff = event.clientY - mouse.startY
         mouse.startX = event.clientX
         mouse.startY = event.clientY
-    }, passive)
-    document.addEventListener("pointermove", (event: PointerEvent) => {
-        if (mouse.dragging) {
-            let xDiff = event.clientX - mouse.startX
-            let yDiff = event.clientY - mouse.startY
-            mouse.startX = event.clientX
-            mouse.startY = event.clientY
-            let xDiffNorm = (xDiff / window.innerWidth) * 2
-            let yDiffNorm = (yDiff / window.innerHeight) * 2
-            mouse.x += xDiffNorm
-            mouse.y += yDiffNorm
-        }
-    }, passive)
-    document.addEventListener("pointerup", (event: PointerEvent) => {
-        mouse.dragging = false
-    }, passive)
+        let xDiffNorm = (xDiff / window.innerWidth) * 2
+        let yDiffNorm = (yDiff / window.innerHeight) * 2
+        mouse.x += xDiffNorm
+        mouse.y += yDiffNorm
+    }
+}
+const onPointerUp = (event: PointerEvent) => {
+    mouse.dragging = false
+}
+function addPointerEvents() {
+    
+
+    document.addEventListener("pointerdown", onPointerDown, passive)
+    document.addEventListener("pointermove", onPointerMove, passive)
+    document.addEventListener("pointerup", onPointerUp, passive)
 }
 
 function addEarth() {
@@ -189,6 +192,17 @@ function addStars() {
     scene.add(stars)
 }
 
+function addSkyscrapers() {
+    addPointPrismOnEarth(latme, lngme)
+    addPointPrismOnEarth(19.446324014224473, -99.13188325511402)
+    addPointPrismOnEarth(71.18301404094616, -39.57334891124896)
+    addPointPrismOnEarth(-34.33083444904446, 18.50977885005987)
+    addPointPrismOnEarth(17.42632336685964, 78.29669360821666)
+    addPointPrismOnEarth(-27.011764910945658, 136.8570329340568)
+    addPointPrismOnEarth(18.089346806053346, -15.973812277073197)
+    addPointPrismOnEarth(-33.66456622133675, -58.535725571563326)
+}
+
 function addPointOnEarth(lat: number, lng: number) {
     const latRad = (lat / 180) * Math.PI
     const lngRad = (lng / 180) * Math.PI
@@ -212,20 +226,22 @@ function addPointPrismOnEarth(lat: number, lng: number) {
     const lngRad = (lng / 180) * Math.PI
 
     const height = 0.8
-    const point = new THREE.Mesh(
+    const box = new THREE.Mesh(
         new THREE.BoxGeometry(0.1, 0.1, height),
         new THREE.MeshBasicMaterial({
-            color: 0xFF0000
+            color: 0xFF0000,
+            opacity: 0.3,
+            transparent: true
         })
     )
     const x = earthRadius * Math.cos(latRad) * Math.sin(lngRad)
     const y = earthRadius * Math.sin(latRad)
     const z = earthRadius * Math.cos(latRad) * Math.cos(lngRad)
 
-    point.position.set(x, y, z)
-    point.lookAt(0, 0, 0)
-    point.geometry.applyMatrix4(new THREE.Matrix4().makeTranslation(0, 0, -height/2))
-    group.add(point)
+    box.position.set(x, y, z)
+    box.lookAt(0, 0, 0)
+    box.geometry.applyMatrix4(new THREE.Matrix4().makeTranslation(0, 0, -height/2))
+    group.add(box)
 }
 
 // const lights = [0x111111, 0x222222, 0x333333, 0x444444, 0x555555, 0x666666, 0x777777, 0x888888, 0x999999, 0xAAAAAA, 0xBBBBBB, 0xCCCCCC, 0xDDDDDD, 0xEEEEEE, 0xFFFFFF]
@@ -239,6 +255,17 @@ function animate() {
     // group.rotation.y += 0.002
     group.rotation.y = mouse.x
     group.rotation.x = mouse.y
+
+    raycaster.setFromCamera(pointer, camera)
+    const intersects = raycaster.intersectObjects(group.children.filter(m => {
+        const mesh = m as THREE.Mesh
+        return mesh.geometry.type === "BoxGeometry"
+    }))
+	for ( let i = 0; i < intersects.length; i ++ ) {
+		const box = intersects[i].object as THREE.Mesh
+        const material = box.material as THREE.MeshBasicMaterial
+        material.opacity = 1
+	}
 
     // controls.update()
 
