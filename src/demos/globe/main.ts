@@ -1,5 +1,6 @@
 import * as THREE from "three"
-
+import { data } from "./testdata"
+import { findLoc} from "./countriesLoc"
 // import { OrbitControls } from "three/examples/jsm/controls/OrbitControls"
 
 import vertexShader from "./shaders/vertex"
@@ -193,14 +194,19 @@ function addStars() {
 }
 
 function addSkyscrapers() {
-    addPointPrismOnEarth(latme, lngme, "atle")
-    addPointPrismOnEarth(19.446324014224473, -99.13188325511402, "Mexico")
-    addPointPrismOnEarth(71.18301404094616, -39.57334891124896, "Greenland")
-    addPointPrismOnEarth(-34.33083444904446, 18.50977885005987, "South Africa")
-    addPointPrismOnEarth(17.42632336685964, 78.29669360821666, "India")
-    addPointPrismOnEarth(-27.011764910945658, 136.8570329340568, "Australia")
-    addPointPrismOnEarth(18.089346806053346, -15.973812277073197, "Mauritania")
-    addPointPrismOnEarth(-33.66456622133675, -58.535725571563326, "Argentina")
+    data.forEach(d => {
+        const latlng = findLoc(d.country)
+        addPointPrismOnEarth(latlng[0], latlng[1], d.country, d.customers)
+    })
+    // addPointPrismOnEarth(latme, lngme, "atle")
+    // addPointPrismOnEarth(62, 10, "Norway")
+    // addPointPrismOnEarth(19.446324014224473, -99.13188325511402, "Mexico")
+    // addPointPrismOnEarth(71.18301404094616, -39.57334891124896, "Greenland")
+    // addPointPrismOnEarth(-34.33083444904446, 18.50977885005987, "South Africa")
+    // addPointPrismOnEarth(17.42632336685964, 78.29669360821666, "India")
+    // addPointPrismOnEarth(-27.011764910945658, 136.8570329340568, "Australia")
+    // addPointPrismOnEarth(18.089346806053346, -15.973812277073197, "Mauritania")
+    // addPointPrismOnEarth(-33.66456622133675, -58.535725571563326, "Argentina")
 }
 
 function addPointOnEarth(lat: number, lng: number) {
@@ -221,16 +227,18 @@ function addPointOnEarth(lat: number, lng: number) {
     group.add(point)
 }
 
-function addPointPrismOnEarth(lat: number, lng: number, name: string) {
+function addPointPrismOnEarth(lat: number, lng: number, name: string, size: number) {
     const latRad = (lat / 180) * Math.PI
     const lngRad = (lng / 180) * Math.PI
 
-    const height = 0.8
+    let height = size / 1000
+    if (height < 0.4)
+        height = 0.4
     const box = new THREE.Mesh(
-        new THREE.BoxGeometry(0.1, 0.1, height),
+        new THREE.BoxGeometry(0.2, 0.2, height),
         new THREE.MeshBasicMaterial({
             color: 0xFF0000,
-            opacity: 0.3,
+            opacity: 0.4,
             transparent: true
         })
     )
@@ -241,7 +249,7 @@ function addPointPrismOnEarth(lat: number, lng: number, name: string) {
     box.position.set(x, y, z)
     box.lookAt(0, 0, 0)
     box.geometry.applyMatrix4(new THREE.Matrix4().makeTranslation(0, 0, -height/2))
-    box.name = name
+    box.name = `${name} <small>(${size})</small>`
     group.add(box)
 }
 
