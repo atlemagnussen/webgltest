@@ -32,7 +32,7 @@ const earthRadius = 5
 let group: THREE.Group
 let moon: THREE.Mesh
 let earth: THREE.Mesh
-let earthMaterial: THREE.ShaderMaterial
+//let earthMaterial: THREE.ShaderMaterial
 const raycaster = new THREE.Raycaster()
 
 // me lat: 58.95071797166171 lng: 5.697703979485407
@@ -86,12 +86,15 @@ export const setup = (canv: HTMLCanvasElement, width: number, height: number, po
 }
 
 function addLight() {
-    // const pointLight = new THREE.PointLight(0xFFFFFF)
-    // pointLight.position.set(0, 20, 20)
-    // scene.add(pointLight)
+    const pointLight = new THREE.PointLight(0xFFFFFF)
+    pointLight.position.set(50, 30, 100)
+    scene.add(pointLight)
 
-    const ambientLight = new THREE.AmbientLight(0xFFFFFF)
-    scene.add(ambientLight)
+    // const ambientLight = new THREE.AmbientLight(0xFFFFFF)
+    // scene.add(ambientLight)
+    // const light = new THREE.PointLight( 0xffffff, 1, 100 )
+    // light.position.set( 50, 50, 50 )
+    // scene.add(light)
 }
 
 const pointer = new THREE.Vector2()
@@ -133,18 +136,18 @@ function addPointerEvents() {
 
 function addEarth() {
     const earthTexture = new THREE.TextureLoader().load(globeUrl)
-    // earthMaterial = new THREE.MeshStandardMaterial({
-    //     map: earthTexture
-    // })
-    earthMaterial = new THREE.ShaderMaterial({
-        vertexShader,
-        fragmentShader,
-        uniforms: {
-            globeTexture: {
-                value: earthTexture
-            }
-        }
+    let earthMaterial = new THREE.MeshStandardMaterial({
+        map: earthTexture
     })
+    // earthMaterial = new THREE.ShaderMaterial({
+    //     vertexShader,
+    //     fragmentShader,
+    //     uniforms: {
+    //         globeTexture: {
+    //             value: earthTexture
+    //         }
+    //     }
+    // })
     earth = new THREE.Mesh(
         new THREE.SphereGeometry(earthRadius, 50, 50),
         earthMaterial
