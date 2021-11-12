@@ -19,6 +19,8 @@ const normalUrl = "https://storage.googleapis.com/trainquility-project.appspot.c
 //@ts-ignore
 const globeUrl = "https://storage.googleapis.com/trainquility-project.appspot.com/assets/globe5.jpg"
 
+let canvas: HTMLCanvasElement
+
 let scene: THREE.Scene
 let camera: THREE.PerspectiveCamera
 let renderer: THREE.WebGLRenderer
@@ -41,20 +43,32 @@ export const stop = () => {
     if (anim)
         cancelAnimationFrame(anim)
 }
-let popup: HTMLDivElement
-export const setup = (canvas: HTMLCanvasElement, pop: HTMLDivElement) => {
-    popup = pop
-    canvas.height = window.innerHeight
-    canvas.width = window.innerWidth
 
+export const resize = (width: number, height: number) => {
+    canvas.height = width
+    canvas.width = height
+    const aspectRatio = width / height
+    camera.aspect = aspectRatio
+    camera.updateProjectionMatrix();
+    renderer.setSize(width, height)
+}
+
+let popup: HTMLDivElement
+export const setup = (canv: HTMLCanvasElement, width: number, height: number, pop: HTMLDivElement) => {
+    canvas = canv
+    popup = pop
+    canvas.height = width
+    canvas.width = height
+
+    const aspectRatio = width / height
     scene = new THREE.Scene()
-    camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
+    camera = new THREE.PerspectiveCamera(75, aspectRatio, 0.1, 1000)
     renderer = new THREE.WebGLRenderer({
         canvas, 
         antialias: true
     })
     renderer.setPixelRatio(window.devicePixelRatio)
-    //renderer.setSize(window.innerWidth, window.innerHeight)
+    renderer.setSize(width, height)
     camera.position.z = 15
 
     renderer.render(scene, camera)

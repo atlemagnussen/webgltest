@@ -2,7 +2,7 @@ import {LitElement, html, css} from "lit"
 import {customElement} from "lit/decorators.js"
 
 import { debounce } from "@app/funcs/helpers"
-import { setup } from "./main"
+import { setup, resize, stop } from "./main"
 
 @customElement('globe-page')
 export class GlobePage extends LitElement {
@@ -12,8 +12,11 @@ export class GlobePage extends LitElement {
     interval = 500
     debounceSetup = debounce(() => {
         console.log("debounce setup")
-        if (this._canvas)
-            setup(this._canvas!, this._popup!)
+        if (this._canvas) {
+            const w = this.clientWidth // or offsetWidth
+            const h = this.clientHeight
+            setup(this._canvas!, w, h, this._popup!)
+        }
     }, 500, this.interval)
     
     constructor() {
@@ -64,13 +67,13 @@ export class GlobePage extends LitElement {
     `
     
     disconnectedCallback() {
-        console.log("disconnectedCallback")
         super.disconnectedCallback()
+        window.removeEventListener("resize", () => this.resizeCanvas())
         stop()
     }
     connectedCallback() {
         super.connectedCallback()
-        console.log("connectedCallback")
+        window.addEventListener("resize", () => this.resizeCanvas())
         this.debounceSetup()
     }
 
@@ -79,6 +82,22 @@ export class GlobePage extends LitElement {
         this._popup = this.shadowRoot?.querySelector("#popup") as HTMLDivElement
     }
 
+    resizeCanvas() {
+        this._canvas = this.renderRoot.querySelector("#c")
+        if (!this._canvas) {
+            console.log("no canvas")
+            return false
+        }
+        console.log(this.shadowRoot)
+        const canvas = this._canvas as HTMLCanvasElement
+        const w = this.clientWidth // or offsetWidth
+        const h = this.clientHeight // or offsetHeight
+        console.log(`Resize event width=${w}, height=${h}`)
+        canvas.width = w
+        canvas.height = h
+        resize(w, h)
+        return true
+    }
     render() {
         return html`
             <header>
