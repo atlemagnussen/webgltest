@@ -82,6 +82,7 @@ export const setup = (canv: HTMLCanvasElement, width: number, height: number, po
     addAtmosphere()
     // addMoon()
     addStars()
+    addBezier()
     addPointerEvents()
     animate()
 }
@@ -99,9 +100,25 @@ function addLightBall() {
     lightBall.add(ball)
     const light = new THREE.PointLight(0xFFFFFF)
     lightBall.add(light)
-    lightBall.position.set(-10, 2, 7)
+    lightBall.position.set(-10, 0, 7)
     scene.add(lightBall)
 }
+
+function addBezier() {
+    const curve = new THREE.CubicBezierCurve3(
+        new THREE.Vector3(-20, 10, -5),
+        new THREE.Vector3(-10, 5, 10),
+        new THREE.Vector3(10, -5, 10),
+        new THREE.Vector3(20, -10, -5)
+    )
+    
+    const points = curve.getPoints(50)
+    const geometry = new THREE.BufferGeometry().setFromPoints(points)
+    const material = new THREE.LineBasicMaterial({color: 0xff0000 })
+    const curveObject = new THREE.Line( geometry, material)
+    scene.add(curveObject)
+}
+
 function addLight() {
     const pointLight = new THREE.PointLight(0xFFFFFF)
     pointLight.position.set(50, 30, 100)
