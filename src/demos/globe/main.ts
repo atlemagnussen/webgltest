@@ -237,8 +237,8 @@ function addPointPrismOnEarth(lat: number, lng: number, name: string, size: numb
     const box = new THREE.Mesh(
         new THREE.BoxGeometry(0.2, 0.2, height),
         new THREE.MeshBasicMaterial({
-            color: 0xFF0000,
-            opacity: 0.4,
+            color: "#acd3ef",
+            opacity: 0.6,
             transparent: true
         })
     )
@@ -272,12 +272,14 @@ function animate() {
     })
     allBoxes.forEach(b => {
         const box = b as THREE.Mesh<THREE.BoxGeometry, THREE.MeshBasicMaterial>
-        box.material.opacity = 0.4
+        box.material.color = new THREE.Color("#76c3ed")
+        box.material.opacity = 0.6
     })
     popup.style.display = "none"
     const intersects = raycaster.intersectObjects(allBoxes)
 	for ( let i = 0; i < intersects.length; i ++ ) {
 		const box = intersects[i].object as THREE.Mesh<THREE.BoxGeometry, THREE.MeshBasicMaterial>
+        box.material.color = new THREE.Color("#1c93d3")
         box.material.opacity = 1
         popup.style.display = "block"
         popup.innerHTML = `<span>${box.name}</span>`
