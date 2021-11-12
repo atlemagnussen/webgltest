@@ -27,6 +27,7 @@ let renderer: THREE.WebGLRenderer
 // let controls: OrbitControls
 
 let anim = 0
+let animationFunctions: Array<Function> = []
 
 const earthRadius = 5
 let group: THREE.Group
@@ -93,7 +94,6 @@ function addLightBall() {
     let ball = new THREE.Mesh(
         new THREE.SphereGeometry(0.2, 28, 28),
         new THREE.MeshPhongMaterial({
-            color: 0xFFFF00,
             emissive: 0xFFFFFF
         })
     )
@@ -117,6 +117,19 @@ function addBezier() {
     const material = new THREE.LineBasicMaterial({color: 0xff0000 })
     const curveObject = new THREE.Line( geometry, material)
     scene.add(curveObject)
+
+    let moveIndex = 0
+    let endIndex = 10000
+    function animcurve() {
+        moveIndex += 1
+        if (moveIndex > endIndex) {
+            moveIndex = 0
+        }
+        const pos = curve.getPoint(moveIndex / endIndex)
+        lightBall.position.x += pos.x
+        lightBall.position.y += pos.y
+        lightBall.position.z += pos.z
+    }
 }
 
 function addLight() {
@@ -311,7 +324,7 @@ function animate() {
     // if (color == 255) color = 0
     // else color += 1
     // earthMaterial.color = new THREE.Color(`rgb(${color}, ${color}, ${color})`)
-    lightBall.position.x += 0.04
+    // lightBall.position.x += 0.04
     // group.rotation.y += 0.002
     group.rotation.y = mouse.x
     group.rotation.x = mouse.y
