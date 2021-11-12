@@ -75,16 +75,33 @@ export const setup = (canv: HTMLCanvasElement, width: number, height: number, po
 
     // controls = new OrbitControls(camera, canvas)
     // addSpaceBackground()
-    addLight()
+    addLightBall()
+    //addLight()
     addEarth()
     addSkyscrapers()
     addAtmosphere()
-    addMoon()
+    // addMoon()
     addStars()
     addPointerEvents()
     animate()
 }
 
+let lightBall: THREE.Group
+function addLightBall() {
+    lightBall = new THREE.Group()
+    let ball = new THREE.Mesh(
+        new THREE.SphereGeometry(0.2, 28, 28),
+        new THREE.MeshPhongMaterial({
+            color: 0xFFFF00,
+            emissive: 0xFFFFFF
+        })
+    )
+    lightBall.add(ball)
+    const light = new THREE.PointLight(0xFFFFFF)
+    lightBall.add(light)
+    lightBall.position.set(-10, 2, 7)
+    scene.add(lightBall)
+}
 function addLight() {
     const pointLight = new THREE.PointLight(0xFFFFFF)
     pointLight.position.set(50, 30, 100)
@@ -277,7 +294,7 @@ function animate() {
     // if (color == 255) color = 0
     // else color += 1
     // earthMaterial.color = new THREE.Color(`rgb(${color}, ${color}, ${color})`)
-    
+    lightBall.position.x += 0.04
     // group.rotation.y += 0.002
     group.rotation.y = mouse.x
     group.rotation.x = mouse.y
