@@ -88,7 +88,6 @@ export class GlobePage extends LitElement {
             console.log("no canvas")
             return false
         }
-        console.log(this.shadowRoot)
         const canvas = this._canvas as HTMLCanvasElement
         const w = this.clientWidth // or offsetWidth
         const h = this.clientHeight // or offsetHeight

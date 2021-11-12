@@ -27,7 +27,7 @@ let renderer: THREE.WebGLRenderer
 // let controls: OrbitControls
 
 let anim = 0
-let animationFunctions: Array<Function> = []
+let animFunctions: Array<Function> = []
 
 const earthRadius = 5
 let group: THREE.Group
@@ -106,30 +106,31 @@ function addLightBall() {
 
 function addBezier() {
     const curve = new THREE.CubicBezierCurve3(
-        new THREE.Vector3(-20, 10, -5),
-        new THREE.Vector3(-10, 5, 10),
-        new THREE.Vector3(10, -5, 10),
-        new THREE.Vector3(20, -10, -5)
+        new THREE.Vector3(-20, 10, 0),
+        new THREE.Vector3(-10, 7, 10),
+        new THREE.Vector3(10, -7, 10),
+        new THREE.Vector3(0, 0, 0)
     )
     
-    const points = curve.getPoints(50)
-    const geometry = new THREE.BufferGeometry().setFromPoints(points)
-    const material = new THREE.LineBasicMaterial({color: 0xff0000 })
-    const curveObject = new THREE.Line( geometry, material)
-    scene.add(curveObject)
+    // const points = curve.getPoints(50)
+    // const geometry = new THREE.BufferGeometry().setFromPoints(points)
+    // const material = new THREE.LineBasicMaterial({color: 0xff0000 })
+    // const curveObject = new THREE.Line( geometry, material)
+    // scene.add(curveObject)
 
     let moveIndex = 0
-    let endIndex = 10000
+    let endIndex = 1000
     function animcurve() {
         moveIndex += 1
         if (moveIndex > endIndex) {
             moveIndex = 0
         }
         const pos = curve.getPoint(moveIndex / endIndex)
-        lightBall.position.x += pos.x
-        lightBall.position.y += pos.y
-        lightBall.position.z += pos.z
+        lightBall.position.x = pos.x
+        lightBall.position.y = pos.y
+        lightBall.position.z = pos.z
     }
+    animFunctions.push(animcurve)
 }
 
 function addLight() {
@@ -321,6 +322,7 @@ function addPointPrismOnEarth(lat: number, lng: number, name: string, size: numb
 // let color = 0
 function animate() {
 
+    animFunctions.forEach(fn => fn())
     // if (color == 255) color = 0
     // else color += 1
     // earthMaterial.color = new THREE.Color(`rgb(${color}, ${color}, ${color})`)
