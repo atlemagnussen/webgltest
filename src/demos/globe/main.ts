@@ -26,8 +26,10 @@ let camera: THREE.PerspectiveCamera
 let renderer: THREE.WebGLRenderer
 // let controls: OrbitControls
 
+interface AnimateFunctions extends Record<string, Function> {}
+
 let anim = 0
-let animFunctions: Array<Function> = []
+let animFunctions: AnimateFunctions = {}
 
 const earthRadius = 5
 let group: THREE.Group
@@ -85,6 +87,7 @@ export const setup = (canv: HTMLCanvasElement, width: number, height: number, po
     addStars()
     addBezier()
     addPointerEvents()
+    addUser("https://testdigileanfiles.blob.core.windows.net/profile-images/Medium-07558849-2477-4bfe-9918-0e04e1d150ab-cropped.jpg")
     animate()
 }
 
@@ -130,7 +133,26 @@ function addBezier() {
         lightBall.position.y = pos.y
         lightBall.position.z = pos.z
     }
-    animFunctions.push(animcurve)
+    animFunctions["beizermover"] = animcurve
+}
+
+export function addUser(url: string) {
+    const userTexture = new THREE.TextureLoader().load(url)
+    const user = new THREE.Mesh(
+        new THREE.BoxGeometry(3, 3, 3),
+        new THREE.MeshBasicMaterial({
+            map: userTexture
+        })
+    )
+    user.position.x = 80
+    user.position.y = 40
+    user.position.z = -50
+    
+    scene.add(user)
+    animFunctions[url] = function() {
+        user.rotation.x += 0.01
+        user.rotation.y += 0.01
+    }
 }
 
 function addLight() {
@@ -322,7 +344,10 @@ function addPointPrismOnEarth(lat: number, lng: number, name: string, size: numb
 // let color = 0
 function animate() {
 
-    animFunctions.forEach(fn => fn())
+    Object.keys(animFunctions).forEach(fnName => {
+        const fn = animFunctions[fnName]
+        fn()
+    })
     // if (color == 255) color = 0
     // else color += 1
     // earthMaterial.color = new THREE.Color(`rgb(${color}, ${color}, ${color})`)
