@@ -345,8 +345,7 @@ function addPointPrismOnEarth(lat: number, lng: number, name: string, size: numb
 function animate() {
 
     Object.keys(animFunctions).forEach(fnName => {
-        const fn = animFunctions[fnName]
-        fn()
+        animFunctions[fnName]()
     })
     // if (color == 255) color = 0
     // else color += 1
