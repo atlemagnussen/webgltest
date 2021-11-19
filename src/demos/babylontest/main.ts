@@ -6,7 +6,7 @@ export const stop = () => {
 }
 
 export const resize = (width: number, height: number) => {
-    
+     
 }
 
 let popup: HTMLDivElement
