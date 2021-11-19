@@ -4,8 +4,8 @@ import {customElement} from "lit/decorators.js"
 import { debounce } from "@app/funcs/helpers"
 import { setup, resize, stop } from "./main"
 
-@customElement('globe-page')
-export class GlobePage extends LitElement {
+@customElement('babylon-test')
+export class BabylonTest extends LitElement {
     _isrunning = false
     _canvas: HTMLCanvasElement | null = null
     _popup: HTMLDivElement | null = null
@@ -15,7 +15,7 @@ export class GlobePage extends LitElement {
         if (this._canvas) {
             const w = this.clientWidth // or offsetWidth
             const h = this.clientHeight
-            setup(this._canvas!, w, h, this._popup!)
+            setup(this.shadowRoot?.querySelector("section")!, this._canvas!, w, h, this._popup!)
         }
     }, 500, this.interval)
     
@@ -102,10 +102,11 @@ export class GlobePage extends LitElement {
             <header>
             
             </header>
-            <canvas id="c"></canvas>
-            <section>
             
+            <section>
+                <canvas id="c"></canvas>
             </section>
+
             <div id="popup">
                 <span>Hello</span>
             </div>

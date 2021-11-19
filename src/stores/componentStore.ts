@@ -1,6 +1,6 @@
 import { BehaviorSubject } from "rxjs"
 
-export const components = ["three-test1", "three-svg-loader1", "three-mountain", "landing-page", "globe-page"]
+export const components = ["three-test1", "three-svg-loader1", "three-mountain", "landing-page", "globe-page", "babylon-test"]
 
 const selectedSub = new BehaviorSubject<string>("")
 export const selectedComponent = selectedSub.asObservable()
