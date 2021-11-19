@@ -23,6 +23,7 @@
     "@material/mwc-select": "^0.25.3",
     "@types/three": "^0.133.1",
     "array-shuffle": "^3.0.0",
+    "babylonjs": "^4.2.0",
     "bound-points": "^1.0.0",
     "cdt2d": "^1.0.0",
     "clean-pslg": "^1.1.2",
