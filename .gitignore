@@ -6,3 +6,5 @@ firebase-debug.log
 
 *.jpg
 *.jpeg
+
+/public/3d/texture/
