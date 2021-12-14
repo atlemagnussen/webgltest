@@ -107,7 +107,7 @@ function animate() {
     anim = requestAnimationFrame(animate)
 }
 
-document.onscroll = onScroll
+//document.onscroll = onScroll
 function onScroll() {
     const t = document.body.getBoundingClientRect().top
     moon.rotation.x += 0.05;

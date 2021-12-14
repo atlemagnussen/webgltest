@@ -78,14 +78,14 @@ export const setup = (canv: HTMLCanvasElement, width: number, height: number, po
 
     // controls = new OrbitControls(camera, canvas)
     // addSpaceBackground()
-    addLightBall()
-    //addLight()
+    //addLightBall()
+    addLight()
     addEarth()
     addSkyscrapers()
     addAtmosphere()
     // addMoon()
     addStars()
-    addBezier()
+    addBezieraddLightBall()
     addPointerEvents()
     addUser("https://testdigileanfiles.blob.core.windows.net/profile-images/Medium-07558849-2477-4bfe-9918-0e04e1d150ab-cropped.jpg")
     animate()
@@ -107,7 +107,8 @@ function addLightBall() {
     scene.add(lightBall)
 }
 
-function addBezier() {
+function addBezieraddLightBall() {
+    addLightBall()
     const curve = new THREE.CubicBezierCurve3(
         new THREE.Vector3(-20, 10, 0),
         new THREE.Vector3(-10, 7, 10),
@@ -126,7 +127,9 @@ function addBezier() {
     function animcurve() {
         moveIndex += 1
         if (moveIndex > endIndex) {
+            Reflect.deleteProperty(animFunctions, "beizermover")
             moveIndex = 0
+            scene.remove(lightBall)
         }
         const pos = curve.getPoint(moveIndex / endIndex)
         lightBall.position.x = pos.x
@@ -157,7 +160,8 @@ export function addUser(url: string) {
 
 function addLight() {
     const pointLight = new THREE.PointLight(0xFFFFFF)
-    pointLight.position.set(50, 30, 100)
+    //pointLight.position.set(50, 30, 100)
+    pointLight.position.set(20, 10, 20)
     scene.add(pointLight)
 
     // const ambientLight = new THREE.AmbientLight(0xFFFFFF)

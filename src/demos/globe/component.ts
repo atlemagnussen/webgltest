@@ -25,9 +25,9 @@ export class GlobePage extends LitElement {
     static styles = css`
         :host {
             background: black;
-            position: absolute;
+            /* position: absolute;
             top:0;
-            left:0;
+            left:0; */
 		    display: grid;
 		    grid-template-rows: auto 1fr auto;
 		    box-sizing: border-box;
@@ -45,10 +45,10 @@ export class GlobePage extends LitElement {
         }
         canvas {
             display: block;
-            position: fixed;
+            /* position: fixed;
             top: 0;
             left: 0;
-            background-color: black;
+            background-color: black; */
             width: 100%;
             height: 100%;
         }
